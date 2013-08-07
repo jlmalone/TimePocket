@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Vana</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+	<string name="goals">Mal</string>
+	<string name="activity">Activiteter</string>
+	<string name="me">Jai</string>
+	<string name="social">Social</string>
+	<string name="log">Loggbok</string>
+	<string name="start">Start</string>
+	<string name="stop">Stop</string>
+</resources>
