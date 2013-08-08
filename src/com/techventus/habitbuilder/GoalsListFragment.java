@@ -12,10 +12,14 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.techventus.habitbuilder.GoalProgressActivity.BundleKey;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -41,6 +45,9 @@ import android.widget.Toast;
  *
  */
 public class GoalsListFragment extends SherlockFragment {
+	
+	
+
 	
 	private final static String TAG = "GoalsListFragment";
 	
@@ -112,18 +119,119 @@ public class GoalsListFragment extends SherlockFragment {
 
     	listview.setAdapter(adapter);
     	
+    	
+    	
+    	
     	listview.setOnItemLongClickListener(new OnItemLongClickListener(){
 
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
 				// TODO Auto-generated method stub
-				Dialog dialog = new Dialog(getActivity());
+				final String goalname = l.get(arg2);
+				final Dialog dialog = new Dialog(getActivity());
 				LayoutInflater li = 
 					(LayoutInflater)	getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				View v = li.inflate(R.layout.listview_dialog, null, false);
+				ListView v =(ListView) li.inflate(R.layout.listview_dialog, null, false);
+				
+//				 SimpleAdapter adapter = new SimpleAdapter(this, fillMaps, R.layout.grid_item, from, to);
+//				        lv.setAdapter(adapter);
+				 
+		        String[] items = { "Rename", "Delete", "Share"};
+		        
+		        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+		                    android.R.layout.simple_list_item_1, items);
+		        
+		        v.setAdapter(adapter);
+		        
+		        
+		        v.setOnItemClickListener(new OnItemClickListener(){
 
+					@Override
+					public void onItemClick(AdapterView<?> arg0, View arg1,
+							int arg2, long arg3) {
+						// TODO Auto-generated method stub
+						if(arg2==0)
+						{
+							final Dialog renameDialog = new Dialog(getActivity());
+							renameDialog.setTitle("Rename");
+							LayoutInflater renameInflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+							LinearLayout rename_layout = (LinearLayout) renameInflater.inflate(R.layout.dialog_rename, null, false);
+							renameDialog.setContentView(rename_layout);
+							
+							dialog.dismiss();
+							renameDialog.show();
+							final EditText rename_input = (EditText)rename_layout.findViewById(R.id.rename_input);
+							Button rename_button = (Button)rename_layout.findViewById(R.id.rename_button);
+							rename_button.setOnClickListener(new OnClickListener(){
+
+								@Override
+								public void onClick(View v) {
+									String renametext = rename_input.getText().toString();
+									if(renametext.length()>3){
+										 DatabaseHelper db = new DatabaseHelper(getActivity());
+//										 db.getWritableDatabase().delete(DatabaseHelper.GOALS_TABLE_NAME, ""+DatabaseHelper.field_goals_goals_text+" = ?", new String[]{goalname} );
+										ContentValues cvGoalsTable = new ContentValues();
+										cvGoalsTable.put(DatabaseHelper.field_goals_goals_text, renametext);										
+										String whereClause = DatabaseHelper.field_goals_goals_text+" = ?";
+										String [] whereArgs = new String[]{goalname};										 
+										db.getWritableDatabase().update(DatabaseHelper.GOALS_TABLE_NAME, cvGoalsTable, whereClause, whereArgs);	
+										ContentValues cvPracticeTable = new ContentValues();
+										cvPracticeTable.put(DatabaseHelper.field_practice_goals_name_text, renametext);	
+										db.getWritableDatabase().update(DatabaseHelper.PRACTICE_TABLE_NAME,cvPracticeTable, DatabaseHelper.field_practice_goals_name_text+" = ?", new String[]{goalname} );
+										db.close();
+										renameDialog.dismiss();
+										dialog.dismiss();
+										refreshList();
+									}else
+									{
+										Toast.makeText(getActivity(), "Name Too Short", Toast.LENGTH_SHORT).show();
+									}
+									
+								}
+								
+							});
+							
+						}
+						if(arg2==1)
+						{
+							AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+									getActivity());
+							alertDialogBuilder.setTitle("Delete "+goalname+": Are You Sure?")
+							.setPositiveButton("Delete", new android.content.DialogInterface.OnClickListener(){
+
+								@Override
+								public void onClick(DialogInterface dg,
+										int which) {
+									// TODO Auto-generated method stub
+									 DatabaseHelper db = new DatabaseHelper(getActivity());
+									 db.getWritableDatabase().delete(DatabaseHelper.GOALS_TABLE_NAME, ""+DatabaseHelper.field_goals_goals_text+" = ?", new String[]{goalname} );
+									
+									 
+									 db.getWritableDatabase().delete(DatabaseHelper.PRACTICE_TABLE_NAME, ""+DatabaseHelper.field_practice_goals_name_text+" = ?", new String[]{goalname} );
+									db.close();
+									dg.dismiss();
+									dialog.dismiss();
+									refreshList();
+								}})
+								.setNegativeButton("No",new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,int id) {
+										// if this button is clicked, just close
+										// the dialog box and do nothing
+										dialog.cancel();
+									}
+								});
+							
+							AlertDialog alertDialog = alertDialogBuilder.create();
+							 
+							// show it
+							alertDialog.show();
+						}
+						
+					}});
+				
 				dialog.setContentView(v);
+				dialog.setTitle(l.get(arg2));
 				dialog.show();
 				return false;
 			}});
@@ -175,7 +283,6 @@ public class GoalsListFragment extends SherlockFragment {
       public boolean hasStableIds() {
         return true;
       }
-
     }
 
   
@@ -228,15 +335,20 @@ public class GoalsListFragment extends SherlockFragment {
 				String input = goal_input.getText().toString();
 				if(input.length()>1)
 				{
-					  
-			        DatabaseHelper db = new DatabaseHelper(getActivity());
-			        db.getWritableDatabase().execSQL("INSERT INTO "+DatabaseHelper.GOALS_TABLE_NAME+" ("+db.field_goals_goals_text+") VALUES ('"+input+"');");
-
-//			       ContentValues cv = new ContentValues();
-//			       cv.put(db.field_goals_goals_text, input);
-			        
-			        //			        .insert(DatabaseHelper.GOALS_TABLE_NAME, db.field_goals_goals_text, input)
-			       db.close();
+					 try
+					 {
+				        DatabaseHelper db = new DatabaseHelper(getActivity());
+				        db.getWritableDatabase().execSQL("INSERT INTO "+DatabaseHelper.GOALS_TABLE_NAME+" ("+db.field_goals_goals_text+") VALUES ('"+input+"');");
+	
+	//			       ContentValues cv = new ContentValues();
+	//			       cv.put(db.field_goals_goals_text, input);
+				        
+				        //			        .insert(DatabaseHelper.GOALS_TABLE_NAME, db.field_goals_goals_text, input)
+				       db.close();
+					 }catch(SQLiteConstraintException e)
+					 {
+						Toast.makeText(getActivity(), "Goal Name Already Taken", Toast.LENGTH_LONG) .show();
+					 }
 			        
 			        refreshList();
 			        adapter.updateData(l);

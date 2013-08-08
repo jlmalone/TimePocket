@@ -26,7 +26,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     protected static final String field_practice_date_long = "date";
     protected static final String field_practice_notes_text = "notes";
     private static final String TABLE_GOALS_CREATE =
-                "CREATE TABLE " + GOALS_TABLE_NAME + " ("+field_goals_id_integer+" integer primary key autoincrement, "+field_goals_goals_text+" TEXT);";
+                "CREATE TABLE " + GOALS_TABLE_NAME + " ("+field_goals_id_integer+" integer primary key autoincrement, "+field_goals_goals_text+" TEXT, UNIQUE("+field_goals_goals_text+"));";
         
     private static final String TABLE_PRACTICE_LOG =
     		"CREATE TABLE "+PRACTICE_TABLE_NAME +" ("+field_practice_id_integer+" integer primary key autoincrement, "+field_practice_goals_id_integer+" INTEGER NOT NULL, "+field_practice_goals_name_text+" TEXT NOT NULL, "+field_practice_seconds_integer+" INTEGER NOT NULL DEFAULT '0' , "+field_practice_notes_text+" TEXT , "+field_practice_date_long+" LONG ,  FOREIGN KEY ("+field_practice_goals_id_integer+") REFERENCES "+GOALS_TABLE_NAME+" ("+field_goals_id_integer+"));";

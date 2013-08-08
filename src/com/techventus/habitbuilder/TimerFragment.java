@@ -138,8 +138,10 @@ public class TimerFragment extends SherlockFragment {
 	private void stop() {
 		stopped = true;
 		if (started && !finished) {
-
+			long origTime = mCountDownTimer.getOriginalTime();
+			long timeSpent = mCountDownTimer.getTimeSpent();
 			mCountDownTimer.cancel();
+			mCallback.onTimerFinished(origTime, timeSpent);
 		}
 	}
 

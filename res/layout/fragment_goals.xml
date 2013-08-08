@@ -4,22 +4,11 @@
   android:layout_width="fill_parent"
   android:layout_height="fill_parent"
   android:gravity="center"
+  android:background="@drawable/green_paint_background">
   
-  >
-
-
-   <ListView 
-       
+ <ListView      
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-   android:id="@+id/listview"  
-   >
-       
-       
-   </ListView> 
-    
- 
- 
- 
- 
- </RelativeLayout>
+   android:id="@+id/listview"></ListView> 
+   
+</RelativeLayout>

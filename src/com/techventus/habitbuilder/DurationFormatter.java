@@ -21,9 +21,26 @@ public class DurationFormatter {
 		int days = ((int) (millis/(1000*60*60*24)));
 		
 		if(days>0)
-			return ""+days+" days, "+hours+" h";
+		{
+			String dayUnit = "days";
+			if(days==1)
+			{
+				dayUnit = "day";
+			}
+			if(hours>0)
+			{
+				return ""+days+" "+dayUnit+", "+hours+" h";
+			}
+			else
+				return ""+days+" "+dayUnit;
+		}
 		else if(hours>0)
-			return ""+hours+" h, "+mins+" min";
+		{
+			if(mins>0)
+				return ""+hours+" h, "+mins+" min";
+			else
+				return ""+hours+" h";
+		}
 		else if(mins>0)
 			return ""+mins+" min";
 		else 

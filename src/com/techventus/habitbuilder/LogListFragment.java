@@ -174,7 +174,7 @@ public class LogListFragment extends SherlockFragment {
     	        LayoutInflater vi;
     	        vi = LayoutInflater.from(getContext());
     	        v = vi.inflate(R.layout.listitem_log_summary, null);
-
+    	       
     	    }
 
     	    LogSummary p = items.get(position);
@@ -183,10 +183,12 @@ public class LogListFragment extends SherlockFragment {
 
     	        TextView goal_name = (TextView) v.findViewById(R.id.goal_name);
     	        TextView seconds_performed = (TextView) v.findViewById(R.id.seconds_performed);
-//    	        TextView tt3 = (TextView) v.findViewById(R.id.description);
+    	        TextView count = (TextView) v.findViewById(R.id.count);
+    	        
+    	        count.setText("Performance Count: "+p.getCount());
 
     	        if (seconds_performed != null) {
-    	        	seconds_performed.setText(p.getTotalSeconds()+" seconds");
+    	        	seconds_performed.setText(DurationFormatter.getFormattedTime(p.getTotalSeconds()));
     	        }
     	        if (goal_name != null) {
 
