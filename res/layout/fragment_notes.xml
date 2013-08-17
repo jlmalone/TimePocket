@@ -4,7 +4,7 @@
   android:layout_width="fill_parent"
   android:layout_height="fill_parent"
   android:gravity="center"
-  android:background="@drawable/white_background"
+  android:background="@drawable/background"
   
   >
 
@@ -16,8 +16,23 @@
     
  
     />
-   <ListView 
+
+<Button 
+    android:id="@+id/startPracticeButton"
+    style="@style/btnStyleArsenic"
+    android:text="@string/open_timer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true"
+    android:layout_marginLeft="30dp"
+    android:layout_marginRight="30dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    
+    ></Button>   <ListView 
        android:layout_below="@id/performance_chart"
+       android:layout_above="@id/startPracticeButton"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
    android:id="@+id/listview"  

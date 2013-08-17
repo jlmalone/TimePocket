@@ -17,15 +17,18 @@ import com.techventus.habitbuilder.GoalProgressActivity.BundleKey;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ListView;
@@ -40,19 +43,6 @@ import android.widget.Toast;
 public class NotesListFragment extends SherlockFragment  {
 	
 	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	public static final String TAG = NotesListFragment.class.getSimpleName();
 	final List<Practice> notesList = new ArrayList<Practice>();
 //	final Map<String, Practice> mp = new HashMap<String, Practice>();
@@ -60,6 +50,8 @@ public class NotesListFragment extends SherlockFragment  {
 	String[] values ;
 //	StableArrayAdapter adapter ;
 	NotesAdapter adapter;
+	
+	Button startTimerButton;
 	
 	int thisGoalId;
 	
@@ -213,7 +205,18 @@ public class NotesListFragment extends SherlockFragment  {
 //                android.R.layout.simple_list_item_1, l);
         
     	final ListView listview = (ListView) page.findViewById(R.id.listview);
+    	startTimerButton = (Button)page.findViewById(R.id.startPracticeButton);
     	
+    	startTimerButton.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(NotesListFragment.this.getActivity(), PerformingHabbit.class);
+				intent.putExtra(PerformingHabbit.BundleKey.EXTRA_GOAL_ID, goal_id);
+				intent.putExtra(PerformingHabbit.BundleKey.EXTRA_GOAL_NAME, goal_name);
+				startActivity(intent);
+				getActivity().finish();
+			}});
 
     	listview.setAdapter(adapter);
     	

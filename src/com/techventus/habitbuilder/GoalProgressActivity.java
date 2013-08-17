@@ -30,19 +30,14 @@ public class GoalProgressActivity extends SherlockFragmentActivity implements No
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
-        
-        
+
         Intent intent = getIntent();
         goal_id=intent.getIntExtra(BundleKey.EXTRA_GOAL_ID,-1);
         goal_name=intent.getStringExtra(BundleKey.EXTRA_GOAL_NAME);
         
         setTitle(goal_name);
-//        mRoot = (RelativeLayout)findViewById(R.id.root);
 
         Log.v(TAG, "CALL ONCREATE");
-
-//        
 
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
@@ -106,10 +101,6 @@ public class GoalProgressActivity extends SherlockFragmentActivity implements No
 
 	@Override
 	public void onNoteSelect(Practice p) {
-//		onNoteSelect(p.getPracticeId(), p.getGoalId(), p.getGoalName(),  p.getNote(),
-//				p.getSecs(), p.getDate()) ;
-		
-		
 		try
 		{
 			Fragment f = getSupportFragmentManager().findFragmentByTag("notes");
@@ -128,10 +119,9 @@ public class GoalProgressActivity extends SherlockFragmentActivity implements No
 			
 			getSupportFragmentManager().beginTransaction()
 				.add(R.id.root, detailFragment,"details").commitAllowingStateLoss();
-		
-			
-			
-		}catch(Exception e)
+	
+		}
+		catch(Exception e)
 		{
 			e.printStackTrace();
 		}

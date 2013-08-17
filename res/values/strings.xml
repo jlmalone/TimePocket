@@ -23,4 +23,7 @@
     <string name="goal_label">Goal:</string>
 <string name="duration">Duration:</string>
 <string name="rename">Rename</string>
+<string name="about">About</string>
+<string name="open_timer">Open Timer</string>
+<string name="back_button_disabled">Back Button Disabled Whilst Practicing.\nStop this Practice, or hit Home to use other apps</string>
 </resources>

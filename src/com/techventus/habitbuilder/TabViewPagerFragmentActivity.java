@@ -13,7 +13,9 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -99,13 +101,35 @@ public class TabViewPagerFragmentActivity extends SherlockFragmentActivity imple
        return true;
    }
    
+   Dialog mAboutDialog;
+   IntroPagerAdapter mIntroPagerAdaper;
+   
+   private void populateAboutDialog(){
+	   mIntroPagerAdaper = new IntroPagerAdapter(this,
+                5);
+	   mAboutDialog = new Dialog(this);
+	   mAboutDialog.setTitle(getResources().getString(R.string.about));
+   		ViewPager myPager = new ViewPager(this);
+   		myPager.setAdapter(mIntroPagerAdaper);
+   		mAboutDialog.setContentView(myPager);
+   		myPager.setCurrentItem(0);
+   }
+   
    @Override
    public boolean onOptionsItemSelected(MenuItem item) {
                switch (item.getItemId()) 
                {
-               	case R.id.log_db:
-                     logDB();
-                     return true;
+//               	case R.id.log_db:
+//                     logDB();
+//                     return true;
+               	case R.id.about:
+               		if(mAboutDialog==null)
+               			populateAboutDialog();
+               		
+               		mAboutDialog.show();
+               		
+               		
+                 return true;
                }
                return false;
    }
@@ -179,6 +203,21 @@ public class TabViewPagerFragmentActivity extends SherlockFragmentActivity imple
     	   }
        // Intialise ViewPager
        this.intialiseViewPager();
+       
+       SharedPreferences prefs = getPreferences(MODE_PRIVATE); 
+       boolean firstTime = prefs.getBoolean("firsttime", true);
+       if (firstTime ) 
+       {
+    	   this.populateAboutDialog();
+    	   mAboutDialog.show();
+
+    	   SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+    	   editor.putBoolean("firsttime",false);
+
+    	   editor.commit();
+
+       }
+       
    }
 
    /** (non-Javadoc)
@@ -281,4 +320,17 @@ public class TabViewPagerFragmentActivity extends SherlockFragmentActivity imple
        // TODO Auto-generated method stub
 
    }
+   
+   
+   
+   
+   
+//   private void showTheDialog(){
+//       AchGalleryDialog newFragment = AchGalleryDialog.newInstance(achs);
+//       newFragment.show(getSupportFragmentManager(), "dialog");
+//   }
+   
+   
+   
+   
 }

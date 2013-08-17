@@ -8,7 +8,11 @@ import com.actionbarsherlock.view.MenuInflater;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -20,6 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * 
@@ -39,6 +44,7 @@ public class TimerFragment extends SherlockFragment {
 	// Container Activity must implement this interface
 	public interface TimerListener {
 		public void onTimerFinished(long intendedTime, long timeSpent);
+		public void onTimerStarted();
 
 	}
 
@@ -66,6 +72,12 @@ public class TimerFragment extends SherlockFragment {
 		try {
 			Log.v(TAG, "ATTACHING ACTIVITY");
 			mCallback = (TimerListener) activity;
+			if(started)
+			{
+				mCallback.onTimerStarted();
+			}
+			
+
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement TimerListener");
@@ -134,9 +146,21 @@ public class TimerFragment extends SherlockFragment {
 		});
 
 	}
+	
+
 
 	private void stop() {
+		
+		
+		if(mCountDownTimer==null)
+		{
+			//TODO REPORT ERROR HOW DID THIS HAPPEN
+			Log.v(TAG, "mCountDownTimer is NULL. HOW DID IT HAPPEN?");
+			return;
+		}
+		
 		stopped = true;
+		
 		if (started && !finished) {
 			long origTime = mCountDownTimer.getOriginalTime();
 			long timeSpent = mCountDownTimer.getTimeSpent();
@@ -152,6 +176,8 @@ public class TimerFragment extends SherlockFragment {
 			createTime();
 			return;
 		}
+		
+		mCallback.onTimerStarted();
 
 		mCountDownTimer = new DetailedCountDownTimer(startingtime, 1000);
 		mCountDownTimer.start();
@@ -171,8 +197,13 @@ public class TimerFragment extends SherlockFragment {
 
 		//todo add and if dialog not already showing
 		if (startingtime <= 0) {
+			Log.v(TAG, "starting time less than 0");
 			createTime();
 		}
+		
+		if(started)
+			timer_button.setText(getActivity().getResources().getString(
+					R.string.stop));
 	}
 
 	@Override
@@ -211,7 +242,27 @@ public class TimerFragment extends SherlockFragment {
 			try{
 				if(getActivity()!=null){
 					Log.v(TAG, "ERROR ACTIVITY IS NULL");
-					MediaPlayer mp = MediaPlayer.create(getActivity(), R.raw.marios);
+					
+					
+//					Uri alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+//				     if(alert == null){
+//				         // alert is null, using backup
+//				         alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+//				         if(alert == null){  // I can't see this ever being null (as always have a default notification) but just incase
+//				             // alert backup is null, using 2nd backup
+//				             alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);               
+//				         }
+//				     }
+					MediaPlayer mp =  MediaPlayer.create(getActivity(), R.raw.cheer);
+//					mp.setDataSource(getActivity(), alert);
+					
+//					final AudioManager audioManager = (AudioManager)getActivity().getSystemService(Context.AUDIO_SERVICE);
+//					 if (audioManager.getStreamVolume(AudioManager.STREAM_ALARM) != 0) {
+//						 		mp.setAudioStreamType(AudioManager.STREAM_ALARM);
+//					            mp.setLooping(true);
+//					            mp.prepare();
+//					            mp.start();
+//					  }
 					try {
 						mp.prepare();
 					} catch (IllegalStateException e) {

@@ -17,6 +17,8 @@ public class PerformingHabbit extends SherlockFragmentActivity implements TimerF
 	RelativeLayout mRoot ;
 	TimerFragment timerFragment;
 	
+	boolean started;
+	
 	   
     private long intendedTime;
     private long timeSpent;
@@ -31,6 +33,20 @@ public class PerformingHabbit extends SherlockFragmentActivity implements TimerF
 	int goal_id;
 	String goal_name;
 	
+	@Override
+	public void onBackPressed()
+	{
+		
+		if(started)
+			Toast.makeText(this, getResources().getString(R.string.back_button_disabled), Toast.LENGTH_SHORT).show();
+		else
+			super.onBackPressed();
+		
+		
+	}
+	
+	
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -157,6 +173,14 @@ public class PerformingHabbit extends SherlockFragmentActivity implements TimerF
 			Toast.makeText(this, "ERROR GOAL ID IS -1", Toast.LENGTH_LONG);
 		}
 
+	}
+
+
+
+	@Override
+	public void onTimerStarted() {
+		// TODO Auto-generated method stub
+		started = true;
 	}
 	
 
