@@ -28,6 +28,10 @@ import android.widget.TextView;
 public class DetailsFragment extends SherlockFragment {
 
 	public static final String TAG = DetailsFragment.class.getSimpleName();
+	
+	private static final SimpleDateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy");
+	
+	private static final SimpleDateFormat dayFormatter = new SimpleDateFormat("EEE");
 
 	/**
 	 * (non-Javadoc)
@@ -61,7 +65,7 @@ public class DetailsFragment extends SherlockFragment {
 	{
 		if(practice!=null)
 		{
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+//			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 			((TextView)page.findViewById(R.id.notesText)).setText(practice.getNote());
 			((TextView)page.findViewById(R.id.date)).setText(formatter.format(new Date(practice.getDate())));
 //			((TextView)page.findViewById(R.id.goal)).setText(practice.getGoalName());

@@ -170,7 +170,7 @@ public class PerformingHabbit extends SherlockFragmentActivity implements TimerF
 //			db.getWritableDatabase().execSQL("INSERT INTO "+DatabaseHelper.PRACTICE_TABLE_NAME+" ("+DatabaseHelper.field_practice_goals_id_integer+","+DatabaseHelper.field_practice_goals_name_text+","+DatabaseHelper.field_practice_seconds_integer+", "+DatabaseHelper.field_practice_date_long+" ,"+DatabaseHelper.field_practice_notes_text+") VALUES ('"+goal_id+"','"+goal_name+"','"+(int)(timeSpent/1000)+"','"+startTime+"','"+note+"');");
 			db.close();
 		}else{
-			Toast.makeText(this, "ERROR GOAL ID IS -1", Toast.LENGTH_LONG);
+			Toast.makeText(this, "ERROR GOAL ID IS -1", Toast.LENGTH_LONG).show();
 		}
 
 	}

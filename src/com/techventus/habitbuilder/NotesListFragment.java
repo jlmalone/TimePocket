@@ -58,7 +58,9 @@ public class NotesListFragment extends SherlockFragment  {
 	int goal_id;
 	String goal_name;
 	
-	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	SimpleDateFormat formatter = new SimpleDateFormat("d MMM yyyy");
+	
+	SimpleDateFormat dayFormatter = new SimpleDateFormat("EEE");
 	
 
 	NoteSelectListener mCallback;
@@ -242,6 +244,7 @@ public class NotesListFragment extends SherlockFragment  {
     
     private class NoteListItemViewHolder
     {
+    	public TextView day_performed;
     	public TextView date_performed;
     	public TextView note;
     	public TextView seconds_performed;
@@ -283,6 +286,7 @@ public class NotesListFragment extends SherlockFragment  {
     	        vi = LayoutInflater.from(getContext());
     	        convertView = vi.inflate(R.layout.listitem_note, null);
     	        viewHolder = new NoteListItemViewHolder();
+    	        viewHolder.day_performed = (TextView)convertView.findViewById(R.id.day_performed);
     	        viewHolder.date_performed = (TextView)convertView.findViewById(R.id.date_performed);
     	        viewHolder.seconds_performed = (TextView) convertView.findViewById(R.id.seconds_performed);
     	        viewHolder.note = (TextView) convertView.findViewById(R.id.note);
@@ -303,6 +307,7 @@ public class NotesListFragment extends SherlockFragment  {
     	        	viewHolder.note.setText(p.getNote());
     	        	
     	        	viewHolder.date_performed.setText(formatter.format(new Date(p.getDate())));
+    	        	viewHolder.day_performed.setText((dayFormatter.format(new Date(p.getDate()))).toUpperCase());
 
     	    }
 

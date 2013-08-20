@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -70,7 +71,7 @@ public class LogListFragment extends SherlockFragment {
         }
         
   
-        return (RelativeLayout)inflater.inflate(R.layout.fragment_goals, container, false);
+        return (RelativeLayout)inflater.inflate(R.layout.fragment_log, container, false);
     }
     
     
@@ -80,7 +81,7 @@ public class LogListFragment extends SherlockFragment {
     	logSummaryList.clear();
 //    	goal_id_map.clear();
         DatabaseHelper db = new DatabaseHelper(getActivity());
-        String[] fields =   {DatabaseHelper.field_goals_goals_text,DatabaseHelper.field_goals_id_integer};
+//        String[] fields =   {DatabaseHelper.field_goals_goals_text,DatabaseHelper.field_goals_id_integer};
         
 //      Cursor c  =db.getReadableDatabase().query(db.GOALS_TABLE_NAME,fields, null, null, null, null, null);
       
@@ -124,11 +125,12 @@ public class LogListFragment extends SherlockFragment {
 //        adapter= new StableArrayAdapter(this.getActivity(),
 //                android.R.layout.simple_list_item_1, l);
  
-    	final ListView listview = (ListView) page.findViewById(R.id.listview);
+//    	final ListView listview = (ListView) page.findViewById(R.id.listview);
+    	final GridView gridview = (GridView)page.findViewById(R.id.gridview);
 
-    	listview.setAdapter(adapter);
+    	gridview.setAdapter(adapter);
     	
-    	listview.setOnItemClickListener(new OnItemClickListener(){
+    	gridview.setOnItemClickListener(new OnItemClickListener(){
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
