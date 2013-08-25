@@ -3,5 +3,11 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">0dp</dimen>
     <dimen name="activity_vertical_margin">0dp</dimen>
-
+<dimen name="week_top_margin">49.3px</dimen>
+<dimen name="week_left_margin">26.3px</dimen>
+<dimen name="cell_width">38.3px</dimen>
+<dimen name="cell_heigh">35.3px</dimen>
+<dimen name="cell_margin_top">61.3px</dimen>
+<dimen name="cell_margin_left">26px</dimen>
+<dimen name="cell_text_size">17.3px</dimen>
 </resources>
