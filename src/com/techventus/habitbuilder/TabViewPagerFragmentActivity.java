@@ -236,7 +236,7 @@ public class TabViewPagerFragmentActivity extends SherlockFragmentActivity imple
        List<Fragment> fragments = new Vector<Fragment>();
 //       fragments.add(SherlockFragment.instantiate(this, TimerFragment.class.getName()));
 //       fragments.add(Fragment.instantiate(this, Tab2Fragment.class.getName()));
-      
+      fragments.add(Fragment.instantiate(this, CalendarFragment.class.getName()));
        fragments.add(Fragment.instantiate(this, GoalsListFragment.class.getName()));
        fragments.add(Fragment.instantiate(this, LogListFragment.class.getName()));
        this.mPagerAdapter  = new PagerAdapter(super.getSupportFragmentManager(), fragments);
@@ -255,8 +255,8 @@ public class TabViewPagerFragmentActivity extends SherlockFragmentActivity imple
        TabInfo tabInfo = null;
 //       TabViewPagerFragmentActivity.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab1").setIndicator(getResources().getString(R.string.goals)), ( tabInfo = new TabInfo("Tab1", TimerFragment.class, args)));
 //       this.mapTabInfo.put(tabInfo.tag, tabInfo);
-//       TabViewPagerFragmentActivity.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab2").setIndicator(getResources().getString(R.string.social)), ( tabInfo = new TabInfo("Tab2", Tab2Fragment.class, args)));
-//       this.mapTabInfo.put(tabInfo.tag, tabInfo);
+       TabViewPagerFragmentActivity.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab2").setIndicator(getResources().getString(R.string.social)), ( tabInfo = new TabInfo("Tab2", CalendarFragment.class, args)));
+       this.mapTabInfo.put(tabInfo.tag, tabInfo);
 
        TabViewPagerFragmentActivity.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab4").setIndicator(getResources().getString(R.string.goals)), ( tabInfo = new TabInfo("Tab4", GoalsListFragment.class, args)));
        this.mapTabInfo.put(tabInfo.tag, tabInfo);

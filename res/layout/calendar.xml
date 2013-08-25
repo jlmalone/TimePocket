@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/layout"
+    > -->
+    
+    <com.squareup.timessquare.CalendarPickerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/calendar_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    />
+<!--     <CalendarView 
+         android:id="@+id/calendar"
+         android:layout_width="match_parent" 
+            android:layout_height="match_parent" /> -->
+<!--         <com.techventus.habitbuilder.CalendarView  android:id="@+id/calendar"
+            android:layout_width="match_parent" 
+            android:layout_height="wrap_content" />
+    <TextView android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name" />
+    <TextView android:id="@+id/hint"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="hint" /> 
+</LinearLayout>-->
