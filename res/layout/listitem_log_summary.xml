@@ -3,6 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
+    android:background="@drawable/lift_grid_background"
     android:padding="6dip">
     <ImageView
         android:id="@+id/icon"
@@ -34,6 +35,12 @@
             android:singleLine="true"
             android:ellipsize="marquee"
         />
+               <ProgressBar
+    android:id="@+id/progressBar1"
+    style="?android:attr/progressBarStyleHorizontal"
+    android:progressDrawable="@drawable/custom_progressbar"         
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
     </LinearLayout>
     
     <TextView 
@@ -42,4 +49,6 @@
           android:textSize="20dp"
           android:id="@+id/seconds_performed"
         android:text="SECONDS PERFORMED"/>
+    
+
 </LinearLayout>

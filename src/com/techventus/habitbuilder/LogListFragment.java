@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.actionbarsherlock.app.SherlockFragment;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -109,6 +113,63 @@ public class LogListFragment extends SherlockFragment {
         
     }
     
+    
+//    public class ListAdapter extends ArrayAdapter<Item> {
+//
+//    	public ListAdapter(Context context, int textViewResourceId) {
+//    	    super(context, textViewResourceId);
+//    	    // TODO Auto-generated constructor stub
+//    	}
+//
+//    	private List<Item> items;
+//
+//    	public ListAdapter(Context context, int resource, List<Item> items) {
+//
+//    	    super(context, resource, items);
+//
+//    	    this.items = items;
+//
+//    	}
+//
+//    	@Override
+//    	public View getView(int position, View convertView, ViewGroup parent) {
+//
+//    	    View v = convertView;
+//
+//    	    if (v == null) {
+//
+//    	        LayoutInflater vi;
+//    	        vi = LayoutInflater.from(getContext());
+//    	        v = vi.inflate(R.layout.itemlistrow, null);
+//
+//    	    }
+//
+//    	    Item p = items.get(position);
+//
+//    	    if (p != null) {
+//
+//    	        TextView tt = (TextView) v.findViewById(R.id.id);
+//    	        TextView tt1 = (TextView) v.findViewById(R.id.categoryId);
+//    	        TextView tt3 = (TextView) v.findViewById(R.id.description);
+//
+//    	        if (tt != null) {
+//    	            tt.setText(p.getId());
+//    	        }
+//    	        if (tt1 != null) {
+//
+//    	            tt1.setText(p.getCategory().getId());
+//    	        }
+//    	        if (tt3 != null) {
+//
+//    	            tt3.setText(p.getDescription());
+//    	        }
+//    	    }
+//
+//    	    return v;
+//
+//    	}
+//    }
+    
     @Override
     public void onViewCreated(View page,Bundle savedInstanceState)
     {
@@ -132,6 +193,7 @@ public class LogListFragment extends SherlockFragment {
     	
     	gridview.setOnItemClickListener(new OnItemClickListener(){
 
+			@SuppressLint("NewApi")
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
@@ -165,41 +227,67 @@ public class LogListFragment extends SherlockFragment {
     	    this.items = items;
 
     	}
+    	
+    	   public class ViewHolder {
+    	        public TextView goal_name;
+    	        public TextView seconds_performed;
+    	        public TextView count;
+    	        public ProgressBar progress_bar;
+//    	        public TextView artist;
+//    	        public ImageView image;
+//    	        public TextView header;
+//    	        int pos;
+    	    }
 
     	@Override
     	public View getView(int position, View convertView, ViewGroup parent) {
 
-    	    View v = convertView;
-
-    	    if (v == null) {
-
-    	        LayoutInflater vi;
-    	        vi = LayoutInflater.from(getContext());
-    	        v = vi.inflate(R.layout.listitem_log_summary, null);
-    	       
+//    	    View v = convertView;
+    		ViewHolder vh;
+    	    if (convertView == null) {
+    	    	vh = new ViewHolder();
+    	        LayoutInflater inflater= LayoutInflater.from(getContext());
+    	        convertView = inflater.inflate(R.layout.listitem_log_summary, null);
+    	        
+    	        vh.count = (TextView)convertView.findViewById(R.id.count);
+    	        vh.goal_name = (TextView)convertView.findViewById(R.id.goal_name);
+    	        vh.seconds_performed = (TextView)convertView.findViewById(R.id.seconds_performed);
+    	        vh.progress_bar = (ProgressBar)convertView.findViewById(R.id.progressBar1);
+    	        
+    	        convertView.setTag(vh);
+    	    }
+    	    else
+    	    {
+    	    	vh = (ViewHolder)convertView.getTag();
     	    }
 
     	    LogSummary p = items.get(position);
 
     	    if (p != null) {
 
-    	        TextView goal_name = (TextView) v.findViewById(R.id.goal_name);
-    	        TextView seconds_performed = (TextView) v.findViewById(R.id.seconds_performed);
-    	        TextView count = (TextView) v.findViewById(R.id.count);
+//    	        TextView goal_name = (TextView) v.findViewById(R.id.goal_name);
+//    	        TextView seconds_performed = (TextView) v.findViewById(R.id.seconds_performed);
+//    	        TextView count = (TextView) v.findViewById(R.id.count);
     	        
-    	        count.setText("Performance Count: "+p.getCount());
+    	        vh.count.setText("Performance Count: "+p.getCount());
 
-    	        if (seconds_performed != null) {
-    	        	seconds_performed.setText(DurationFormatter.getFormattedTime(p.getTotalSeconds()));
-    	        }
-    	        if (goal_name != null) {
+//    	        if (seconds_performed != null) {
+    	        	vh.seconds_performed.setText(DurationFormatter.getFormattedTime(p.getTotalSeconds()));
+//    	        }
+//    	        if (goal_name != null) {
 
-    	        	goal_name.setText(p.getGoal());
-    	        }
+    	        	vh.goal_name.setText(p.getGoal());
+//    	        }
+    	        	
+                    Drawable draw= getResources().getDrawable(R.drawable.custom_progressbar);
+                    // set the drawable as progress drawavle
+
+                   vh.progress_bar .setProgressDrawable(draw);
+                   vh.progress_bar.setProgress((p.getCount()*10));
 
     	    }
 
-    	    return v;
+    	    return convertView;
 
     	}
     }

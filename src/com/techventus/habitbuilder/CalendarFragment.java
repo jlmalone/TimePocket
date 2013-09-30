@@ -22,7 +22,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import com.actionbarsherlock.app.SherlockFragment;
-import com.squareup.timessquare.CalendarPickerView;
+//import com.squareup.timessquare.CalendarPickerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -65,21 +65,21 @@ public class CalendarFragment extends SherlockFragment {
 	    		Calendar nextYear = Calendar.getInstance();
 	    		nextYear.add(Calendar.YEAR, 1);
 	    		
-	    		CalendarPickerView page = (CalendarPickerView) inflater.inflate(R.layout.calendar,
-	    				container, false);
-
-	    		CalendarPickerView calendar = (CalendarPickerView) page.findViewById(R.id.calendar_view);
+//	    		CalendarPickerView page = (CalendarPickerView) inflater.inflate(R.layout.calendar,
+//	    				container, false);
+//
+//	    		CalendarPickerView calendar = (CalendarPickerView) page.findViewById(R.id.calendar_view);
 	    		Date today = new Date();
 //	    		CalendarPickerView.FluentInitializer fi = new CalendarPickerView.FluentInitializer();
 //	    		fi.inMode(CalendarPickerView.SelectionMode.MULTIPLE);
 //	    		fi.
 	    		
-	    		calendar.init(today, nextYear.getTime(),true)
-	    		    .withSelectedDate(today);
-	    		
-	    		
-	    		
-	    		calendar.setEnabled(false);
+//	    		calendar.init(today, nextYear.getTime(),true)
+//	    		    .withSelectedDate(today);
+//	    		
+//	    		
+//	    		
+//	    		calendar.setEnabled(false);
 	    		
 	    		
 	    		setRetainInstance(true);
