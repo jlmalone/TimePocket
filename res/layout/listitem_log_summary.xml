@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
     android:background="@drawable/lift_grid_background"
-    android:padding="6dip">
+    android:padding="6dip"
+    android:layout_margin="10dp">
     <ImageView
         android:id="@+id/icon"
         android:visibility="gone"
@@ -14,23 +15,35 @@
         android:src="@drawable/ic_launcher" />
     <LinearLayout
         android:orientation="vertical"
+        android:gravity="center_horizontal"
         android:layout_width="0dip"
         android:layout_weight="1"
         android:layout_height="wrap_content">
         <TextView
             android:id="@+id/goal_name"
             android:layout_width="fill_parent"
+            android:gravity="center"
             android:layout_height="0dip"
+            android:layout_marginBottom="12dp"
             android:textSize="20dp"
             android:layout_weight="1"
-            android:gravity="center_vertical"
-        />
-        <TextView
             
+        />
+        
+            <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+          android:textSize="40dp"
+           android:layout_marginBottom="12dp"
+          android:id="@+id/seconds_performed"
+        android:text="SECONDS PERFORMED"/>
+        <TextView
+            android:gravity="center_horizontal"
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="1" 
-             android:textSize="10dp"
+             android:textSize="5dp"
             android:id="@+id/count"
             android:singleLine="true"
             android:ellipsize="marquee"
@@ -43,12 +56,7 @@
     android:layout_height="wrap_content" />
     </LinearLayout>
     
-    <TextView 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-          android:textSize="20dp"
-          android:id="@+id/seconds_performed"
-        android:text="SECONDS PERFORMED"/>
+
     
 
 </LinearLayout>

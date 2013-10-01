@@ -80,7 +80,7 @@ public class CalendarView2 extends ImageView {
 
                 CELL_TEXT_SIZE = res.getDimension(R.dimen.cell_text_size);
                 // set background
-                setImageResource(R.drawable.background);
+//                setImageResource(R.drawable.);
                 mWeekTitle = res.getDrawable(R.drawable.calendar_week);
                 
                 mHelper = new MonthDisplayHelper(mRightNow.get(Calendar.YEAR), mRightNow.get(Calendar.MONTH));
