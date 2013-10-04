@@ -147,3 +147,13 @@ libs/actionbarsherlock/bin/res/*
 
 
 libs/actionbarsherlock/.settings/org.eclipse.jdt.core.prefs
+
+gen/com/techventus/habitbuilder/BuildConfig.java
+
+gen/com/techventus/habitbuilder/R.java
+
+gen/com/actionbarsherlock/R.java
+
+libs/actionbarsherlock/.classpath
+
+libs/actionbarsherlock/.classpath
