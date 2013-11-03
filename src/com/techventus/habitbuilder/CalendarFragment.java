@@ -18,24 +18,22 @@
 
 package com.techventus.habitbuilder;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 import com.actionbarsherlock.app.SherlockFragment;
 //import com.squareup.timessquare.CalendarPickerView;
 
-import android.content.Context;
-import android.content.Intent;
+import com.squareup.timessquare.CalendarPickerView;
+import com.squareup.timessquare.CalendarPickerView.SelectionMode;
+
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CalendarView;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 
@@ -44,7 +42,7 @@ public class CalendarFragment extends SherlockFragment {
 	
 
 //	        public static final String MIME_TYPE = "vnd.android.cursor.dir/vnd.exina.android.calendar.date";
-	        CalendarView mView = null;
+//	        CalendarView mView = null;
 	        TextView mHit;
 	        Handler mHandler = new Handler();
 	        
@@ -65,11 +63,54 @@ public class CalendarFragment extends SherlockFragment {
 	    		Calendar nextYear = Calendar.getInstance();
 	    		nextYear.add(Calendar.YEAR, 1);
 	    		
-//	    		CalendarPickerView page = (CalendarPickerView) inflater.inflate(R.layout.calendar,
-//	    				container, false);
+	    		 page = (CalendarPickerView) inflater.inflate(R.layout.calendar_dialog,
+	    				container, false);
 //
 //	    		CalendarPickerView calendar = (CalendarPickerView) page.findViewById(R.id.calendar_view);
-	    		Date today = new Date();
+//	    		Date today = new Date();
+	    		
+	    		
+	    		
+	    		
+	    		
+	    		
+	    		
+	    		
+//	            CalendarPickerView dialogView =
+//	                    (CalendarPickerView) getLayoutInflater().inflate(R.layout.dialog, null, false);
+	                
+	              Calendar today = Calendar.getInstance();
+	              ArrayList<Date> dates = new ArrayList<Date>();
+	              for (int i = 0; i < 5; i++) {
+	                today.add(Calendar.DAY_OF_MONTH, 3);
+	                dates.add(today.getTime());
+	              }
+	              ((CalendarPickerView)page).init(new Date(), nextYear.getTime()) //
+	                  .inMode(SelectionMode.MULTIPLE) //
+	                  .withSelectedDates(dates);
+//	              dialogView.setE
+//	              dialogView.setEnabled(false);
+//	                dialogView.init(new Date(), nextYear.getTime());
+//	                new AlertDialog.Builder(SampleTimesSquareActivity.this)
+//	                    .setTitle("I'm a dialog!")
+//	                    .setView(dialogView)
+//	                    .setNeutralButton("Dismiss", new DialogInterface.OnClickListener() {
+//	                      @Override public void onClick(DialogInterface dialogInterface, int i) {
+//	                        dialogInterface.dismiss();
+//	                      }
+//	                    })
+//	                    .create()
+//	                    .show();
+//	              }
+//	            });
+	    		
+	    		
+	    		
+	    		
+	    		
+	    		
+	    		
+	    		
 //	    		CalendarPickerView.FluentInitializer fi = new CalendarPickerView.FluentInitializer();
 //	    		fi.inMode(CalendarPickerView.SelectionMode.MULTIPLE);
 //	    		fi.
@@ -86,7 +127,7 @@ public class CalendarFragment extends SherlockFragment {
 	    		return page;
 	    	}
 
-	    	View page;
+	    	CalendarPickerView page;
 	    	
 	    	@Override
 	    	public void onViewCreated(View page, Bundle savedInstanceState) {
