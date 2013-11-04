@@ -37,11 +37,8 @@ public class LogListFragment extends SherlockFragment {
 	
 	public static final String TAG = LogListFragment.class.getSimpleName();
 	
-//	final List<String> l = new ArrayList<String>(); 
 	final List<LogSummary> logSummaryList = new ArrayList<LogSummary>();
-//	final Map<String, Integer> goal_id_map= new HashMap<String, Integer>();
 	String[] values ;
-//	 StableArrayAdapter adapter ;
 	
 	ListAdapter adapter;
 	
@@ -64,13 +61,6 @@ public class LogListFragment extends SherlockFragment {
             Bundle savedInstanceState) {
     	
         if (container == null) {
-            // We have different layouts, and in one of them this
-            // fragment's containing frame doesn't exist.  The fragment
-            // may still be created from its saved state, but there is
-            // no reason to try to create its view hierarchy because it
-            // won't be displayed.  Note this is not needed -- we could
-            // just run the code below, where we would create and return
-            // the view hierarchy; it would just never be used.
             return null;
         }
         
@@ -81,13 +71,8 @@ public class LogListFragment extends SherlockFragment {
     
     private void refreshList()
     {
-//    	l.clear();
     	logSummaryList.clear();
-//    	goal_id_map.clear();
         DatabaseHelper db = new DatabaseHelper(getActivity());
-//        String[] fields =   {DatabaseHelper.field_goals_goals_text,DatabaseHelper.field_goals_id_integer};
-        
-//      Cursor c  =db.getReadableDatabase().query(db.GOALS_TABLE_NAME,fields, null, null, null, null, null);
       
         String selectString = "SELECT SUM("+DatabaseHelper.field_practice_seconds_integer+") AS TIMESUM, "+DatabaseHelper.field_practice_goals_name_text+", "+DatabaseHelper.field_practice_goals_id_integer+", MAX("+DatabaseHelper.field_practice_date_long+") AS RECENTDATE, COUNT(*) AS COUNT FROM "+DatabaseHelper.PRACTICE_TABLE_NAME+" GROUP BY "+DatabaseHelper.field_practice_goals_id_integer+" ORDER BY "+DatabaseHelper.field_practice_goals_id_integer+";";
       
@@ -182,11 +167,20 @@ public class LogListFragment extends SherlockFragment {
 //        refreshList();
         
         adapter = new ListAdapter(this.getActivity(), R.layout.listitem_log_summary,logSummaryList);
+        
+        
+        
+        
 
 //        adapter= new StableArrayAdapter(this.getActivity(),
 //                android.R.layout.simple_list_item_1, l);
  
 //    	final ListView listview = (ListView) page.findViewById(R.id.listview);
+        
+        
+        
+        
+        
     	final GridView gridview = (GridView)page.findViewById(R.id.gridview);
 
     	gridview.setAdapter(adapter);
@@ -215,7 +209,6 @@ public class LogListFragment extends SherlockFragment {
 
     	public ListAdapter(Context context, int textViewResourceId) {
     	    super(context, textViewResourceId);
-    	    // TODO Auto-generated constructor stub
     	}
 
     	private List<LogSummary> items;
@@ -233,10 +226,6 @@ public class LogListFragment extends SherlockFragment {
     	        public TextView seconds_performed;
     	        public TextView count;
     	        public ProgressBar progress_bar;
-//    	        public TextView artist;
-//    	        public ImageView image;
-//    	        public TextView header;
-//    	        int pos;
     	    }
 
     	@Override
@@ -265,9 +254,6 @@ public class LogListFragment extends SherlockFragment {
 
     	    if (p != null) {
 
-//    	        TextView goal_name = (TextView) v.findViewById(R.id.goal_name);
-//    	        TextView seconds_performed = (TextView) v.findViewById(R.id.seconds_performed);
-//    	        TextView count = (TextView) v.findViewById(R.id.count);
     	        
     	        vh.count.setText("Performance Count: "+p.getCount());
 
