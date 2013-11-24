@@ -18,6 +18,15 @@
             android:label="@string/app_name"
             android:configChanges="orientation|keyboardHidden"
              >
+
+            
+        </activity>
+        
+                <activity
+            android:name="com.techventus.habitbuilder.Splash"
+            android:label="@string/app_name"
+            android:configChanges="orientation|keyboardHidden"
+             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
