@@ -11,7 +11,8 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 
-public class PerformingHabbit extends SherlockFragmentActivity implements TimerFragment.TimerListener, CreateNoteFragment.NoteCreateListener{
+public class PerformingHabbit extends SherlockFragmentActivity implements TimerFragment.TimerListener, CreateNoteFragment.NoteCreateListener
+{
 	
 	public static final String TAG = PerformingHabbit.class.getSimpleName();
 	RelativeLayout mRoot ;
@@ -28,6 +29,7 @@ public class PerformingHabbit extends SherlockFragmentActivity implements TimerF
 	{
 		public static final String EXTRA_GOAL_ID = "EXTRA_GOAL_ID";
 		public static final String EXTRA_GOAL_NAME = "EXTRA_GOAL_NAME";
+		public static final String EXTRA_DATES = "EXTRA_DATES" ;
 	}
 
 	int goal_id;
@@ -48,7 +50,8 @@ public class PerformingHabbit extends SherlockFragmentActivity implements TimerF
 	
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
@@ -89,7 +92,7 @@ public class PerformingHabbit extends SherlockFragmentActivity implements TimerF
 
 
       
-        }
+    }
 
 
     @Override

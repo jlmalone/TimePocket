@@ -97,63 +97,7 @@ public class LogListFragment extends SherlockFragment {
         
         
     }
-    
-    
-//    public class ListAdapter extends ArrayAdapter<Item> {
-//
-//    	public ListAdapter(Context context, int textViewResourceId) {
-//    	    super(context, textViewResourceId);
-//    	    // TODO Auto-generated constructor stub
-//    	}
-//
-//    	private List<Item> items;
-//
-//    	public ListAdapter(Context context, int resource, List<Item> items) {
-//
-//    	    super(context, resource, items);
-//
-//    	    this.items = items;
-//
-//    	}
-//
-//    	@Override
-//    	public View getView(int position, View convertView, ViewGroup parent) {
-//
-//    	    View v = convertView;
-//
-//    	    if (v == null) {
-//
-//    	        LayoutInflater vi;
-//    	        vi = LayoutInflater.from(getContext());
-//    	        v = vi.inflate(R.layout.itemlistrow, null);
-//
-//    	    }
-//
-//    	    Item p = items.get(position);
-//
-//    	    if (p != null) {
-//
-//    	        TextView tt = (TextView) v.findViewById(R.id.id);
-//    	        TextView tt1 = (TextView) v.findViewById(R.id.categoryId);
-//    	        TextView tt3 = (TextView) v.findViewById(R.id.description);
-//
-//    	        if (tt != null) {
-//    	            tt.setText(p.getId());
-//    	        }
-//    	        if (tt1 != null) {
-//
-//    	            tt1.setText(p.getCategory().getId());
-//    	        }
-//    	        if (tt3 != null) {
-//
-//    	            tt3.setText(p.getDescription());
-//    	        }
-//    	    }
-//
-//    	    return v;
-//
-//    	}
-//    }
+
     
     @Override
     public void onViewCreated(View page,Bundle savedInstanceState)
@@ -164,22 +108,9 @@ public class LogListFragment extends SherlockFragment {
     	
         values= new String[] { "WRITE SOFTWARE" };
 
-//        refreshList();
-        
-        adapter = new ListAdapter(this.getActivity(), R.layout.listitem_log_summary,logSummaryList);
-        
-        
-        
-        
 
-//        adapter= new StableArrayAdapter(this.getActivity(),
-//                android.R.layout.simple_list_item_1, l);
- 
-//    	final ListView listview = (ListView) page.findViewById(R.id.listview);
-        
-        
-        
-        
+        adapter = new ListAdapter(this.getActivity(), R.layout.listitem_log_summary,logSummaryList);
+
         
     	final GridView gridview = (GridView)page.findViewById(R.id.gridview);
 
@@ -197,7 +128,6 @@ public class LogListFragment extends SherlockFragment {
 				i.putExtra(GoalProgressActivity.BundleKey.EXTRA_GOAL_NAME, adapter.getItem(arg2).getGoal());
 				i.putExtra(GoalProgressActivity.BundleKey.EXTRA_GOAL_ID, adapter.getItem(arg2).getGoal_id());
 				
-//				Log.v(TAG, adapter.getItem(arg2)+"  "+goal_id_map.get(adapter.getItem(arg2)));
 				getActivity().startActivityForResult(i, 0, null);
 			}});
     }
@@ -229,9 +159,9 @@ public class LogListFragment extends SherlockFragment {
     	    }
 
     	@Override
-    	public View getView(int position, View convertView, ViewGroup parent) {
+    	public View getView(int position, View convertView, ViewGroup parent)
+	    {
 
-//    	    View v = convertView;
     		ViewHolder vh;
     	    if (convertView == null) {
     	    	vh = new ViewHolder();

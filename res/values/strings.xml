@@ -26,4 +26,5 @@
 <string name="about">About</string>
 <string name="open_timer">Open Timer</string>
 <string name="back_button_disabled">Back Button Disabled Whilst Practicing.\nStop this Practice, or hit Home to use other apps</string>
+	<string name="show_calendar">Show Calendar</string>
 </resources>

@@ -43,8 +43,8 @@ public class CalendarFragment extends SherlockFragment {
 
 //	        public static final String MIME_TYPE = "vnd.android.cursor.dir/vnd.exina.android.calendar.date";
 //	        CalendarView mView = null;
-	        TextView mHit;
-	        Handler mHandler = new Handler();
+//	        TextView mHit;
+//	        Handler mHandler = new Handler();
 	        
 	        
 	    	/**
@@ -60,34 +60,43 @@ public class CalendarFragment extends SherlockFragment {
 	    			return null;
 
 	    		}
-	    		Calendar nextYear = Calendar.getInstance();
+	    		final Calendar nextYear = Calendar.getInstance();
 	    		nextYear.add(Calendar.YEAR, 1);
 	    		
 	    		 page = (CalendarPickerView) inflater.inflate(R.layout.calendar_dialog,
 	    				container, false);
-//
-//	    		CalendarPickerView calendar = (CalendarPickerView) page.findViewById(R.id.calendar_view);
-//	    		Date today = new Date();
-	    		
-	    		
-	    		
-	    		
-	    		
-	    		
-	    		
-	    		
-//	            CalendarPickerView dialogView =
-//	                    (CalendarPickerView) getLayoutInflater().inflate(R.layout.dialog, null, false);
 	                
 	              Calendar today = Calendar.getInstance();
-	              ArrayList<Date> dates = new ArrayList<Date>();
+	              final ArrayList<Date> dates = new ArrayList<Date>();
 	              for (int i = 0; i < 5; i++) {
 	                today.add(Calendar.DAY_OF_MONTH, 3);
 	                dates.add(today.getTime());
 	              }
-	              ((CalendarPickerView)page).init(new Date(), nextYear.getTime()) //
-	                  .inMode(SelectionMode.MULTIPLE) //
+			    ((CalendarPickerView)page).init(new Date(), nextYear.getTime()) //
+			     .inMode(SelectionMode.MULTIPLE) //
 	                  .withSelectedDates(dates);
+
+
+
+//			    page.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener()
+//			    {
+//				    @Override
+//				    public void onDateSelected(Date date)
+//				    {
+//					    page.clearChoices();
+//					    ((CalendarPickerView)page).init(new Date(), nextYear.getTime()) //
+//							    .inMode(SelectionMode.MULTIPLE) //
+//							    .withSelectedDates(dates);
+//				    }
+//			    });
+
+
+
+
+
+
+
+
 //	              dialogView.setE
 //	              dialogView.setEnabled(false);
 //	                dialogView.init(new Date(), nextYear.getTime());
