@@ -17,7 +17,7 @@
 			android:layout_gravity="left"
 			android:gravity="left"
 			android:layout_marginLeft="15dp"
-			android:text="How it works:"
+			android:text="@string/how_it_works"
 			android:textSize="21dp"
 
 			android:layout_marginBottom="7dp"/>
@@ -27,7 +27,7 @@
 			android:layout_height="wrap_content"
 			android:layout_gravity="left"
 			android:gravity="left"
-			android:text="1. Define Your Goals"
+			android:text="@string/define_goals"
 			android:layout_marginLeft="15dp"
 			android:textSize="19dp"
 			android:layout_marginBottom="7dp"/>
@@ -38,7 +38,7 @@
 			android:layout_gravity="left"
 			android:layout_height="wrap_content"
 			android:layout_marginLeft="15dp"
-			android:text="Ex. Learn Spanish, do more yoga, learn nuclear physics, write a book, spend quality time with your dog/cat/rabbit/self"
+			android:text="@string/learn_spanish"
 			android:textSize="13dp"
 			android:layout_marginBottom="17dp"/>
 

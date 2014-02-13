@@ -29,4 +29,11 @@
 	<string name="show_calendar">Show Calendar</string>
 	<string name="next">Next</string>
 	<string name="contact_us">Contact Us</string>
+	<string name="thank_you_kindly"><![CDATA[Thank you for using TimeFly. Just like life, it’s a work in progress. Please send us your feedback &amp; ideas to mytimeflyexperience@gmail.com]]></string>
+	<string name="how_it_works">How it works:</string>
+	<string name="it_tracks_progress">4. It tracks your progress</string>
+	<string name="where_were_you">Where were you one year ago? A month ago? Last week? You were a different person. Look back on the notes to see how far you\'ve come!</string>
+	<string name="define_goals">1. Define Your Goals</string>
+	<string name="learn_spanish">Ex. Learn Spanish, do more yoga, learn nuclear physics, write a book, spend quality time with your dog/cat/rabbit/self</string>
+	<string name="automagical_time_management">Automagical time management for postponers.\n Making it easy and fun to get stuff done, a few minutes at a time.</string>
 </resources>

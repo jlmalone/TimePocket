@@ -8,18 +8,15 @@
 		android:gravity="left"
 		android:layout_marginRight="30dp"
 		android:layout_marginTop="15dp">
-
 	<TextView
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_gravity="left"
 			android:gravity="left"
-
 			android:layout_marginLeft="15dp"
 			android:text="How it works:"
 			android:textSize="21dp"
 			android:layout_marginBottom="7dp"/>
-
 	<TextView
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
@@ -29,9 +26,6 @@
 			android:text="2. It gets you started"
 			android:textSize="19dp"
 			android:layout_marginBottom="7dp"/>
-
-
-
 	<TextView
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
@@ -42,7 +36,6 @@
 			android:text="We postpone because the task is TOO BIG to handle NOW. Make it small, dedicate just a tiny time pocket to it NOW. Start with 15 mins. In this time, do SOMETHING/ANYTHING towards your goal."
 			android:textSize="13dp"
 			android:layout_marginBottom="8dp"/>
-
 	<TextView
 			android:layout_width="match_parent"
 			android:gravity="left"
@@ -53,6 +46,4 @@
 			android:text="Don't worry about the results. They will come (just like a planted seed becomes a tree if you water it). Focus on putting in the TIME."
 			android:textSize="13dp"
 			android:layout_marginBottom="17dp"/>
-
-
 </LinearLayout>

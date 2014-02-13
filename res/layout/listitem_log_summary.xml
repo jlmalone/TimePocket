@@ -1,63 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center_vertical"
-    android:layout_margin="10dp"
-    android:background="@drawable/lift_grid_background"
-    android:padding="6dip" >
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_vertical"
+		android:layout_margin="10dp"
+		android:background="@drawable/lift_grid_background"
+		android:padding="6dip">
 
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="6dip"
-        android:src="@drawable/timeflylogo"
-        android:visibility="gone" />
+	<ImageView
+			android:id="@+id/icon"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="6dip"
+			android:src="@drawable/timeflylogo"
+			android:visibility="gone"/>
 
-    <LinearLayout
-        android:layout_width="0dip"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:orientation="vertical" >
+	<LinearLayout
+			android:layout_width="0dip"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center_horizontal"
+			android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/goal_name"
-            android:layout_width="fill_parent"
-            android:layout_height="0dip"
-            android:layout_marginBottom="12dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:singleLine="true"
-            android:textSize="20dp" />
+		<TextView
+				android:id="@+id/goal_name"
+				android:layout_width="fill_parent"
+				android:layout_height="0dip"
+				android:layout_marginBottom="12dp"
+				android:layout_weight="1"
+				android:gravity="center"
+				android:singleLine="true"
+				android:textSize="20dp"/>
 
-        <TextView
-            android:id="@+id/seconds_performed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:gravity="center_horizontal"
-            android:singleLine="true"
-            android:text="SECONDS PERFORMED"
-            android:textSize="30dp" />
+		<TextView
+				android:id="@+id/seconds_performed"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="12dp"
+				android:gravity="center_horizontal"
+				android:singleLine="true"
+				android:text="SECONDS PERFORMED"
+				android:textSize="30dp"/>
 
-        <TextView
-            android:id="@+id/count"
-            android:layout_width="fill_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-            android:ellipsize="marquee"
-            android:gravity="center_horizontal"
-            android:singleLine="true"
-            android:textSize="10dp" />
+		<TextView
+				android:id="@+id/count"
+				android:layout_width="fill_parent"
+				android:layout_height="0dip"
+				android:layout_weight="1"
+				android:ellipsize="marquee"
+				android:gravity="center_horizontal"
+				android:singleLine="true"
+				android:textSize="10dp"/>
 
-        <ProgressBar
-            android:id="@+id/progressBar1"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:progressDrawable="@drawable/custom_progressbar" />
-    </LinearLayout>
+		<ProgressBar
+				android:id="@+id/progressBar1"
+				style="?android:attr/progressBarStyleHorizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:progressDrawable="@drawable/custom_progressbar"/>
+	</LinearLayout>
 
 </LinearLayout>

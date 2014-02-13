@@ -1,38 +1,39 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_gravity="center"
-    android:gravity="center"
+		xmlns:tools="http://schemas.android.com/tools"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:layout_gravity="center"
+		android:gravity="center"
 
->
+		>
 
-<!--     <TextView
-        android:id="@+id/create_goal_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_goal" 
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"/> -->
-    
-    <EditText 
-        android:id="@+id/time_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/enter_minutes"
-        android:inputType="number"
-        android:layout_centerInParent="true"    
-	/>
-    <Button
-        android:id="@+id/enter_time_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/ok"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp"
+	<!--     <TextView
+			android:id="@+id/create_goal_title"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/add_goal"
+			android:layout_alignParentTop="true"
+			android:layout_centerHorizontal="true"/> -->
 
-        >
-        
-    </Button>
+	<EditText
+			android:id="@+id/time_input"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:hint="@string/enter_minutes"
+			android:inputType="number"
+			android:layout_centerInParent="true"
+			/>
+
+	<Button
+			android:id="@+id/enter_time_button"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/ok"
+			android:paddingLeft="30dp"
+			android:paddingRight="30dp"
+
+			>
+
+	</Button>
 </LinearLayout>

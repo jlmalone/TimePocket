@@ -1,41 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  android:gravity="center"
-  android:background="@color/white"
-  >
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:gravity="center"
+		android:background="@color/white"
+		>
 
-  <TextView
-      android:id="@+id/new_note_title"
-      android:layout_marginTop="10dp"
-      android:layout_marginBottom="10dp"
-      android:textSize="30dp"
-        android:layout_width="match_parent"
-       android:layout_height="wrap_content"  
-       android:layout_alignParentTop="true"
-       android:layout_centerHorizontal="true"
-       android:gravity="center_horizontal"
-       android:text="@string/how_did_it_go"
-       />
-  <Button android:id="@+id/finish"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"  
-       android:layout_alignParentBottom="true"
-       android:layout_centerHorizontal="true"
-       android:text="@string/finsih"
-      />
-    
- <EditText 
-     android:id="@+id/enter_note"
-            android:layout_width="match_parent"
-       android:layout_height="match_parent" 
-       android:layout_above="@id/finish"
-       android:layout_below="@id/new_note_title"
-       android:inputType="textMultiLine"
-       android:hint="@string/enter_note"
-       android:gravity="top|left" />
- 
- 
- </RelativeLayout>
+	<TextView
+			android:id="@+id/new_note_title"
+			android:layout_marginTop="10dp"
+			android:layout_marginBottom="10dp"
+			android:textSize="30dp"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_alignParentTop="true"
+			android:layout_centerHorizontal="true"
+			android:gravity="center_horizontal"
+			android:text="@string/how_did_it_go"
+			/>
+
+	<Button
+			android:id="@+id/finish"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_alignParentBottom="true"
+			android:layout_centerHorizontal="true"
+			android:text="@string/finsih"
+			/>
+
+	<EditText
+			android:id="@+id/enter_note"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_above="@id/finish"
+			android:layout_below="@id/new_note_title"
+			android:inputType="textMultiLine"
+			android:hint="@string/enter_note"
+			android:gravity="top|left"/>
+
+
+</RelativeLayout>
