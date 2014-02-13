@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-		package="com.techventus.habitbuilder"
-		android:versionCode="1"
-		android:versionName="1.0">
+		package="com.techventus.timefly"
+		android:versionCode="4"
+		android:versionName="1.3">
 	<uses-sdk
 			android:minSdkVersion="8"
 			android:targetSdkVersion="18"/>
 	<application
 			android:allowBackup="true"
-			android:icon="@drawable/ic_launcher"
+			android:icon="@drawable/timeflylogo"
 			android:label="@string/app_name"
 			android:theme="@style/AppBaseTheme">
 		<activity
-				android:name="com.techventus.habitbuilder.TabViewPagerFragmentActivity"
+				android:name="com.techventus.timefly.TabViewPagerFragmentActivity"
 				android:label="@string/app_name"
 				android:configChanges="orientation|keyboardHidden"/>
 		<activity
-				android:name="com.techventus.habitbuilder.CalendarActivity"
+				android:name="com.techventus.timefly.CalendarActivity"
 				android:label="@string/app_name"
 				android:configChanges="orientation|keyboardHidden"/>
 		<activity
-				android:name="com.techventus.habitbuilder.Splash"
+				android:name="com.techventus.timefly.Splash"
 				android:label="@string/app_name"
 				android:configChanges="orientation|keyboardHidden"
 				>
@@ -31,13 +31,13 @@
 			</intent-filter>
 		</activity>
 		<activity
-				android:name="com.techventus.habitbuilder.PerformingHabbit"
+				android:name="com.techventus.timefly.PerformingHabbit"
 				android:label="@string/app_name"
 				android:windowSoftInputMode="adjustResize"
 				android:configChanges="orientation|keyboardHidden">
 		</activity>
 		<activity
-				android:name="com.techventus.habitbuilder.GoalProgressActivity"
+				android:name="com.techventus.timefly.GoalProgressActivity"
 				android:label="@string/app_name"
 				android:windowSoftInputMode="adjustResize"
 				android:configChanges="orientation|keyboardHidden">

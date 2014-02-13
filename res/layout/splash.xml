@@ -15,32 +15,32 @@
             android:layout_height="0dp"
             android:layout_weight="2"
              android:scaleType="fitXY"
-            android:src="@drawable/timefly_splash"
+            android:src="@drawable/timefly_intro_screen"
         />
-    <LinearLayout 
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        android:layout_weight="1">
-        <Button 
-                    android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Sign in with FB"
-        
-            />
-                <Button 
-                    android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-         android:text="Sign in with Twitter"
-        
-            />
-                                <Button 
-                    android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-         android:text="Sign in with Google"
-        
-            />
-    </LinearLayout>
+    <!--<LinearLayout -->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:orientation="vertical"-->
+        <!--android:layout_weight="1">-->
+        <!--<Button -->
+                    <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Sign in with FB"-->
+        <!---->
+            <!--/>-->
+                <!--<Button -->
+                    <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+         <!--android:text="Sign in with Twitter"-->
+        <!---->
+            <!--/>-->
+                                <!--<Button -->
+                    <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+         <!--android:text="Sign in with Google"-->
+        <!---->
+            <!--/>-->
+    <!--</LinearLayout>-->
 
 
 </LinearLayout>

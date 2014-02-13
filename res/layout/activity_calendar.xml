@@ -5,7 +5,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent">
 
-	<fragment android:name="com.techventus.habitbuilder.CalendarFragment"
+	<fragment android:name="com.techventus.timefly.CalendarFragment"
 			android:id="@+id/headlines_fragment"
 
 			android:layout_width="match_parent"

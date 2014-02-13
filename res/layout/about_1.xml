@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_marginLeft="30dp"
+		android:gravity="center_horizontal"
+
+		android:layout_marginTop="15dp">
+>
+
+
+	<TextView
+
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center_horizontal"
+			android:text="TimeFly"
+			android:textSize="19dp"
+			android:layout_marginBottom="10dp"/>
+		<TextView
+				android:layout_width="match_parent"
+				android:gravity="left"
+				android:layout_height="wrap_content"
+				android:text="Automagical time management for postponers.\nTimeFly makes it easy and fun to get stuff done, a few minutes at a time."
+				android:textSize="13dp"
+				android:layout_marginLeft="10dp"
+				android:layout_marginRight="10dp"
+				android:layout_marginBottom="17dp"/>
+		<ImageView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				  android:layout_gravity="center_horizontal"
+				android:src="@drawable/timeflylogo"
+				android:layout_marginBottom="17dp"/>
+		<TextView
+				android:layout_width="match_parent"
+				android:id="@+id/fbtw"
+				android:gravity="left"
+				android:layout_marginLeft="10dp"
+				android:autoLink="web"
+				android:layout_height="wrap_content"
+				android:layout_marginRight="15dp"
+				android:text="If you’re a postponer of things important, this app may well become the key to your personal success. It utilises decades of research of science of the mind, motivation and productivity. Not to mention, just wisdom and common sense. For latest insights, join the conversation on Facebook and Twitter"
+				android:textSize="13dp"
+				android:layout_marginBottom="17dp"/>
+
+	<TextView
+			android:layout_width="match_parent"
+			android:id="@+id/fbtw"
+			android:gravity="left"
+			android:layout_marginRight="15dp"
+			android:layout_marginLeft="10dp"
+			android:autoLink="web"
+			android:layout_height="wrap_content"
+			android:layout_gravity="left"
+			android:text="https://www.facebook.com/pages/Timefly/413656958780174"
+			android:textSize="13dp"
+			android:layout_marginBottom="17dp"/>
+
+	<TextView
+			android:layout_width="match_parent"
+			android:id="@+id/fbtw"
+			android:layout_gravity="left"
+			android:layout_marginLeft="10dp"
+			android:autoLink="web"
+			android:layout_height="wrap_content"
+
+			android:text="https://twitter.com/thisistimefly"
+			android:textSize="13dp"
+			android:layout_marginBottom="17dp"/>
+
+
+</LinearLayout>

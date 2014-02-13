@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_marginLeft="30dp"
+		android:gravity="left"
+		android:layout_marginRight="30dp"
+		android:layout_marginTop="15dp">
+
+	<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+
+			android:layout_gravity="left"
+			android:gravity="left"
+			android:layout_marginLeft="15dp"
+			android:text="Make your first goal: \'Define My Goals\'"
+			android:textSize="21dp"
+			android:layout_marginBottom="17dp"/>
+
+
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_gravity="left"
+			android:gravity="left"
+			android:layout_marginLeft="15dp"
+			android:layout_height="wrap_content"
+			android:text="Set the timer to 5 mins"
+			android:textSize="13dp"
+			android:layout_marginBottom="17dp"/>
+
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_gravity="left"
+			android:gravity="left"
+			android:layout_marginLeft="15dp"
+			android:layout_marginRight="15dp"
+			android:layout_height="wrap_content"
+			android:text="In this time, think about what you would like to achieve, build, create or improve in your life over the next year"
+			android:textSize="13dp"
+			android:layout_marginBottom="17dp"/>
+
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_gravity="left"
+			android:gravity="left"
+			android:layout_marginLeft="15dp"
+			android:layout_marginRight="15dp"
+			android:layout_height="wrap_content"
+			android:text="When the timer ends, jot down notes and reflections"
+			android:textSize="13dp"
+			android:layout_marginBottom="17dp"/>
+
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="left"
+			android:gravity="left"
+			android:layout_marginLeft="15dp"
+			android:text="Add the goals you discovered to the TimeFly goals list"
+			android:textSize="13dp"
+			android:layout_marginRight="15dp"
+			android:layout_marginBottom="17dp"/>
+
+	<TextView
+			android:layout_width="match_parent"
+			android:layout_gravity="left"
+			android:gravity="left"
+			android:layout_marginLeft="15dp"
+			android:layout_marginRight="15dp"
+			android:layout_height="wrap_content"
+			android:text="Dedicate some time each goal every day. Write down what you did and achieved. Track your progress"
+			android:textSize="13dp"
+			android:layout_marginBottom="8dp"/>
+</LinearLayout>

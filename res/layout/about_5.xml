@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="30dp"
+		android:gravity="left"
+		android:layout_marginRight="30dp"
+		android:layout_marginTop="15dp">
+
+
+
+
+
+
+	<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="left"
+			android:gravity="left"
+			android:layout_marginLeft="15dp"
+			android:text="How it works:"
+			android:textSize="21dp"
+			android:layout_marginBottom="7dp"/>
+
+	<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="left"
+			android:gravity="left"
+			android:layout_marginLeft="15dp"
+			android:text="4. It tracks your progress"
+			android:textSize="19dp"
+			android:layout_marginBottom="7dp"/>
+
+
+
+	<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="left"
+			android:gravity="left"
+			android:layout_marginLeft="15dp"
+			android:layout_marginRight="15dp"
+			android:text="Where were you one year ago? A month ago? Last week? You were a different person. Look back on the notes to see how far you've come!"
+			android:textSize="13dp"
+			android:layout_marginBottom="30dp"/>
+
+
+
+
+</LinearLayout>
