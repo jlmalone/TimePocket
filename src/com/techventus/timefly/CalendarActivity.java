@@ -12,59 +12,60 @@ import java.util.Date;
 /**
  * Created by Joseph on 01.01.14.
  */
-public class CalendarActivity   extends SherlockFragmentActivity
+public class CalendarActivity extends SherlockFragmentActivity
 {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		         long[] datesAr = null;
-		    if(getIntent().getExtras().containsKey(PerformingHabbit.BundleKey.EXTRA_DATES))
-		    {
-			    datesAr = getIntent().getExtras().getLongArray(PerformingHabbit.BundleKey.EXTRA_DATES) ;
-		    }
+		long[] datesAr = null;
+		if (getIntent().getExtras().containsKey(PerformingHabbit.BundleKey.EXTRA_DATES))
+		{
+			datesAr = getIntent().getExtras().getLongArray(PerformingHabbit.BundleKey.EXTRA_DATES);
+		}
 
-		      if(datesAr==null)
-		      {
-			      //TODO SHOW TOAST
-			      finish();
-			      return;
-		      }
+		if (datesAr == null)
+		{
+			//TODO SHOW TOAST
+			finish();
+			return;
+		}
 
 
 		final Calendar nextYear = Calendar.getInstance();
 		nextYear.add(Calendar.YEAR, 1);
 
 
-		final CalendarPickerView page = (CalendarPickerView) getLayoutInflater().inflate(R.layout.calendar_dialog,null);
+		final CalendarPickerView page = (CalendarPickerView) getLayoutInflater().inflate(R.layout.calendar_dialog, null);
 
 		setContentView(page);
 
 		Calendar today = Calendar.getInstance();
 		final ArrayList<Date> dates = new ArrayList<Date>();
 		long mindate = datesAr[0];
-		long maxdate=datesAr[0];
+		long maxdate = datesAr[0];
 		for (int i = 0; i < datesAr.length; i++)
 		{
-			if(datesAr[i]<mindate)
+			if (datesAr[i] < mindate)
 			{
-				mindate =  datesAr[i];
+				mindate = datesAr[i];
 			}
-			if(datesAr[i]>maxdate)
+			if (datesAr[i] > maxdate)
 			{
-				maxdate =  datesAr[i];
+				maxdate = datesAr[i];
 			}
 			dates.add(new Date(datesAr[i]));
 		}
-		((CalendarPickerView)page).init(new Date(mindate-24L*1000*3600), new Date(maxdate+24L*1000*3600)) //
+		((CalendarPickerView) page).init(new Date(mindate - 24L * 1000 * 3600), new Date(maxdate + 24L * 1000 * 3600)) //
 				.inMode(CalendarPickerView.SelectionMode.MULTIPLE) //
 				.withSelectedDates(dates);
 
 
 		page.setDateSelectableFilter(new CalendarPickerView.DateSelectableFilter()
 		{
-			@Override public boolean isDateSelectable(Date date)
+			@Override
+			public boolean isDateSelectable(Date date)
 			{
 
 				return false;

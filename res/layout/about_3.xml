@@ -8,21 +8,23 @@
 		android:gravity="left"
 		android:layout_marginRight="30dp"
 		android:layout_marginTop="15dp">
+	<!--<TextView-->
+			<!--android:layout_width="match_parent"-->
+			<!--android:layout_height="wrap_content"-->
+			<!--android:layout_gravity="left"-->
+			<!--android:gravity="left"-->
+			<!--android:layout_marginTop="25dp"-->
+			<!--android:layout_marginLeft="15dp"-->
+			<!--android:text="How it works:"-->
+			<!--android:textSize="21dp"-->
+			<!--android:layout_marginBottom="7dp"/>-->
 	<TextView
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_gravity="left"
 			android:gravity="left"
 			android:layout_marginLeft="15dp"
-			android:text="How it works:"
-			android:textSize="21dp"
-			android:layout_marginBottom="7dp"/>
-	<TextView
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_gravity="left"
-			android:gravity="left"
-			android:layout_marginLeft="15dp"
+			android:layout_marginTop="25dp"
 			android:text="2. It gets you started"
 			android:textSize="19dp"
 			android:layout_marginBottom="7dp"/>

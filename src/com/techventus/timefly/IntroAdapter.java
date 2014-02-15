@@ -3,12 +3,15 @@ package com.techventus.timefly;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
@@ -73,7 +76,27 @@ public class IntroAdapter extends PagerAdapter
 			LinearLayout linear = (LinearLayout) inflater.inflate(R.layout.about_1, null);
 			((ScrollView) layout.findViewById(R.id.about_container)).removeAllViews();
 			((ScrollView) layout.findViewById(R.id.about_container)).addView(linear);
+			ImageView twitter_icon = (ImageView)layout.findViewById(R.id.twitter_icon) ;
+			ImageView fb_icon = (ImageView)layout.findViewById(R.id.facebook) ;
+			twitter_icon.setOnClickListener(new View.OnClickListener()
+			{
+				@Override
+				public void onClick(View view)
+				{
+					Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/thisistimefly"));
+					act.startActivity(browserIntent);
+				}
+			});
 
+			fb_icon.setOnClickListener(new View.OnClickListener()
+			{
+				@Override
+				public void onClick(View view)
+				{
+					Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/pages/Timefly/413656958780174"));
+					act.startActivity(browserIntent);
+				}
+			});
 		}
 		else if (position == 1)
 		{

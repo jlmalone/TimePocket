@@ -20,6 +20,7 @@
 			android:text="@string/how_it_works"
 			android:textSize="21dp"
 
+			android:layout_marginTop="25dp"
 			android:layout_marginBottom="7dp"/>
 
 	<TextView

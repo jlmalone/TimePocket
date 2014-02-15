@@ -1,7 +1,6 @@
 package com.techventus.timefly;
 
 
-
 import com.actionbarsherlock.app.SherlockFragment;
 
 
@@ -18,72 +17,77 @@ import com.techventus.timefly.R;
 
 
 /**
- * @author Victoria Hansen 
- *
+ * @author Victoria Hansen
  */
-public class CreateNoteFragment extends SherlockFragment {
-	
+public class CreateNoteFragment extends SherlockFragment
+{
+
 	NoteCreateListener mCallback;
-	
-
-    // Container Activity must implement this interface
-    public interface NoteCreateListener {
-        public void onNoteFinished(String note);
-        
-        
-    }
-    
-    Button finishButton;
-    EditText notesText;
-	
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        
-        // This makes sure that the container activity has implemented
-        // the callback interface. If not, it throws an exception
-        try {
-            mCallback = (NoteCreateListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement TimerListener");
-        }
-    }
 
 
-	
-	
+	// Container Activity must implement this interface
+	public interface NoteCreateListener
+	{
+		public void onNoteFinished(String note);
 
-    /** (non-Javadoc)
-     * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
-     */
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        if (container == null) {
+	}
 
-            return null;
-           
-        }
-        setRetainInstance(true);
-        return (RelativeLayout)inflater.inflate(R.layout.fragment_create_note, container, false);
-    }
-    
-    @Override
-    public void onViewCreated(View page,Bundle savedInstanceState)
-    {
-    	super.onViewCreated(page, savedInstanceState)	;
-    	
-    	notesText = (EditText)page.findViewById(R.id.enter_note);
-    	finishButton = (Button)page.findViewById(R.id.finish);
-    	finishButton.setOnClickListener(new OnClickListener(){
+	Button finishButton;
+	EditText notesText;
+
+
+	@Override
+	public void onAttach(Activity activity)
+	{
+		super.onAttach(activity);
+
+		// This makes sure that the container activity has implemented
+		// the callback interface. If not, it throws an exception
+		try
+		{
+			mCallback = (NoteCreateListener) activity;
+		}
+		catch (ClassCastException e)
+		{
+			throw new ClassCastException(activity.toString() + " must implement TimerListener");
+		}
+	}
+
+
+	/**
+	 * (non-Javadoc)
+	 *
+	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
+	 */
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+	{
+		if (container == null)
+		{
+
+			return null;
+
+		}
+		setRetainInstance(true);
+		return (RelativeLayout) inflater.inflate(R.layout.fragment_create_note, container, false);
+	}
+
+	@Override
+	public void onViewCreated(View page, Bundle savedInstanceState)
+	{
+		super.onViewCreated(page, savedInstanceState);
+
+		notesText = (EditText) page.findViewById(R.id.enter_note);
+		finishButton = (Button) page.findViewById(R.id.finish);
+		finishButton.setOnClickListener(new OnClickListener()
+		{
 
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View arg0)
+			{
 				mCallback.onNoteFinished(notesText.getText().toString());
 			}
-    		
-    	});
-    }
+
+		});
+	}
 
 }

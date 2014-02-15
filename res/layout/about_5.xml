@@ -15,6 +15,7 @@
 			android:layout_gravity="left"
 			android:gravity="left"
 			android:layout_marginLeft="15dp"
+			android:layout_marginTop="25dp"
 			android:text="@string/how_it_works"
 			android:textSize="21dp"
 			android:layout_marginBottom="7dp"/>
