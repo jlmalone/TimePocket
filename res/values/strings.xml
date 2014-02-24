@@ -23,7 +23,7 @@
     <string name="goal_label">Goal:</string>
 <string name="duration">Duration:</string>
 <string name="rename">Rename</string>
-<string name="about">About</string>
+<string name="about">About TimeFly</string>
 <string name="open_timer">Open Timer</string>
 <string name="back_button_disabled">Back Button Disabled Whilst Practicing.\nStop this Practice, or hit Home to use other apps</string>
 	<string name="show_calendar">Show Calendar</string>
@@ -36,4 +36,10 @@
 	<string name="define_goals">1. Define Your Goals</string>
 	<string name="learn_spanish">Ex. Learn Spanish, do more yoga, learn nuclear physics, write a book, spend quality time with your dog/cat/rabbit/self</string>
 	<string name="automagical_time_management">Automagical time management for postponers.\n Making it easy and fun to get stuff done, a few minutes at a time.</string>
+	<string name="it_takes_some_21">5 minutes a day is better than 1 hour once a week. Tiny consistent steps EVERY DAY become habits. It takes some 21 days to adopt a new habit.</string>
+	<string name="snooze">Snooze</string>
+	<string name="end">End</string>
+	<string name="five_mins">5 mins</string>
+	<string name="ten_mins">10 mins</string>
+	<string name="half_hour">30 mins</string>
 </resources>

@@ -8,6 +8,7 @@
 			android:id="@+id/goal_input"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:inputType="textCapWords"
 			android:hint="@string/enter_goal_name"/>
 	<Button
 			android:id="@+id/enter_goal_button"

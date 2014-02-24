@@ -39,7 +39,7 @@
 			android:layout_height="wrap_content"
 			android:layout_marginLeft="15dp"
 			android:layout_marginRight="15dp"
-			android:text="It takes some 21 days to adopt a new habit. 5 minutes a day is better than 1 hour once a week. Tiny consistent steps EVERY DAY become habits."
+			android:text="@string/it_takes_some_21"
 			android:textSize="13dp"
 			android:layout_marginBottom="17dp"/>
 

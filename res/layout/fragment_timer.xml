@@ -20,11 +20,38 @@
 
 	<Button
 			style="@style/btnStyleArsenic"
-			android:id="@+id/timer_action_button"
+			android:id="@+id/start_timer_button"
+
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginLeft="10dp"
 			android:text="@string/start"
+			android:enabled="true"
+
+			/>
+
+	<Button
+			style="@style/btnStyleArsenic"
+			android:id="@+id/stop_button"
+			android:textSize="20dp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="10dp"
+			android:text="@string/stop"
+			android:visibility="gone"
+			android:enabled="true"
+
+			/>
+
+	<Button
+			style="@style/btnStyleArsenic"
+			android:id="@+id/snooze_button"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="10dp"
+			android:text="@string/snooze"
+			android:visibility="gone"
+			android:textSize="20dp"
 			android:enabled="true"
 
 			/>

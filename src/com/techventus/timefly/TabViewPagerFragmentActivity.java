@@ -122,10 +122,7 @@ public class TabViewPagerFragmentActivity extends SherlockFragmentActivity imple
 		myPager.setAdapter(mIntroAdaper);
 		mAboutDialog.setContentView(myPager);
 
-
 		myPager.setCurrentItem(0);
-
-
 
 	}
 
@@ -284,12 +281,6 @@ public class TabViewPagerFragmentActivity extends SherlockFragmentActivity imple
 		mTabHost = (TabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup();
 		TabInfo tabInfo = null;
-		//       TabViewPagerFragmentActivity.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab1").setIndicator(getResources().getString(R.string
-		// .goals)), ( tabInfo = new TabInfo("Tab1", TimerFragment.class, args)));
-		//       this.mapTabInfo.put(tabInfo.tag, tabInfo);
-		//       TabViewPagerFragmentActivity.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab2").setIndicator(getResources().getString(R.string
-		// .social)), ( tabInfo = new TabInfo("Tab2", CalendarFragment.class, args)));
-		//       this.mapTabInfo.put(tabInfo.tag, tabInfo);
 
 		TabViewPagerFragmentActivity.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab4").setIndicator(getResources().getString(R.string.goals)),
 				(tabInfo = new TabInfo("Tab4", GoalsListFragment.class, args)));

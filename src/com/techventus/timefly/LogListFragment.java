@@ -21,7 +21,6 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.techventus.timefly.R;
 
 
@@ -123,7 +122,6 @@ public class LogListFragment extends SherlockFragment
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 			{
-				Toast.makeText(getActivity(), "CLICK ITEM " + arg2, Toast.LENGTH_LONG).show();
 
 				Intent i = new Intent(getActivity(), GoalProgressActivity.class);
 				i.putExtra(GoalProgressActivity.BundleKey.EXTRA_GOAL_NAME, adapter.getItem(arg2).getGoal());

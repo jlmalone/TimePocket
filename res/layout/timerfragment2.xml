@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+		<!--Setup-->
+ <Button
+		 android:layout_width="wrap_content"
+		 android:layout_height="wrap_content"
+		 android:id="@+id/timer_setup_button"
+		 android:text="Setup Time"/>
+	<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/timer_setup_text"
+			android:visibility="gone"
+			android:text="Timer Setup"/>
+	     <!--Start-->
+	<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/start_timer_button"
+			android:visibility="gone"
+			android:text="Start Time"/>
+	<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/start_indicator"
+			android:visibility="gone"
+			android:text="Started"/>
+		<!--Current Time-->
+
+	<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/current_time"
+			android:visibility="gone"
+			android:text="Current Time"/>
+		<!--Snooze-->
+
+	<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/snooze_button"
+			android:visibility="gone"
+			android:text="Snooze Button"/>
+	<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/snoozed"
+			android:visibility="gone"
+			android:text="Snoozed"/>
+	   <!--Ended-->
+
+	<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/end_button"
+			android:visibility="gone"
+			android:text="End"/>
+	<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/ended"
+			android:visibility="gone"
+			android:text="Ended"/>
+
+
+
+</LinearLayout>

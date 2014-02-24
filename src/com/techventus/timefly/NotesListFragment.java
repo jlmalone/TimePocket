@@ -30,7 +30,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.techventus.timefly.R;
 
 /**
@@ -138,22 +137,28 @@ public class NotesListFragment extends SherlockFragment
 		GraphViewData[] gvAr = new GraphViewData[practice_list.size()];
 
 		int j = 0;
+		SimpleDateFormat sdf = new SimpleDateFormat("EEE");
+		String[] labels = new String[practice_list.size()];
 		for (int i = practice_list.size() - 1; i >= 0; i--)
 		{
-			gvAr[i] = new GraphViewData(practice_list.get(j).getDate(), practice_list.get(j).getSecs());
+			gvAr[i] = new GraphViewData(practice_list.get(j).getDate(), practice_list.get(j).getSecs()/60);
+			labels[i] =  sdf.format(new Date(practice_list.get(j).getDate()));
 			j++;
 		}
 
 		// init example series data
 		GraphViewSeries exampleSeries = new GraphViewSeries(gvAr);
 
-		GraphView graphView = new LineGraphView(this.getActivity(), "Activity");
+		GraphView graphView = new LineGraphView(this.getActivity(), "");
 		graphView.setBackgroundColor(getResources().getColor(R.color.black));
 		if (Build.VERSION.SDK_INT >= 11)
 		{
 			graphView.setBottom(0);
 		}
 		graphView.addSeries(exampleSeries); // data
+
+
+		graphView.setHorizontalLabels(labels);
 
 		chart_holder.removeAllViews();
 		chart_holder.addView(graphView);
@@ -234,7 +239,6 @@ public class NotesListFragment extends SherlockFragment
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 			{
-				Toast.makeText(getActivity(), "CLICK ITEM " + arg2, Toast.LENGTH_LONG).show();
 				Practice p = notesList.get(arg2);//mp.get(l.get(arg2));
 				mCallback.onNoteSelect(p);
 			}
