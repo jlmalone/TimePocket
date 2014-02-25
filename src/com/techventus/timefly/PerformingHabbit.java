@@ -65,12 +65,13 @@ public class PerformingHabbit extends SherlockFragmentActivity implements TimerF
 			Bundle extras = intent.getExtras() ;
 			if(extras.containsKey(TimerService.BundleKey.SETUP))
 			{
-				Toast.makeText(PerformingHabbit.this,"Performing Habbit Acknowledges Setup Complete",Toast.LENGTH_SHORT).show();
+//				Toast.makeText(PerformingHabbit.this,"Performing Habbit Acknowledges Setup Complete",Toast.LENGTH_SHORT).show();
 				timerFragment.setupComplete();
 			}
 			else if(extras.containsKey(TimerService.BundleKey.START))
 			{
 				timerFragment.timerStarted();
+				started = true;
 			}
 			else if(extras.containsKey(TimerService.BundleKey.UPDATE_TIME))
 			{

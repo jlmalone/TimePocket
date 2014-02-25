@@ -33,6 +33,18 @@
        <item name="android:background">@drawable/custom_button_arsenic</item>
        <item name="android:padding">10dip</item>
    </style>
-    
+
+	<style name="btnStyleSeagull" parent="@android:style/Widget.Button">
+		<item name="android:textSize">20sp</item>
+		<item name="android:textStyle">bold</item>
+		<item name="android:textColor">#FFFFFF</item>
+		<item name="android:gravity">center</item>
+		<item name="android:shadowColor">#CCCCCC</item>
+		<item name="android:shadowDx">1</item>
+		<item name="android:shadowDy">1</item>
+		<item name="android:shadowRadius">0.2</item>
+		<item name="android:background">@drawable/custom_btn_seagull</item>
+		<item name="android:padding">10dip</item>
+	</style>
 
 </resources>

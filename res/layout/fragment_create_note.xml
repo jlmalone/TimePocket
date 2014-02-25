@@ -22,7 +22,7 @@
 
 	<Button
 			android:id="@+id/finish"
-			style="@style/btnStyleArsenic"
+			style="@style/btnStyleSeagull"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_alignParentBottom="true"

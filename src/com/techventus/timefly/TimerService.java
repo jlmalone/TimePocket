@@ -107,6 +107,7 @@ public class TimerService   extends Service
 					mCountDown.cancel();
 
 				}
+				mNotificationManager.cancel(3);
 			}
 			else if(extras.containsKey(BundleKey.GET_STATE))
 			{
@@ -257,6 +258,9 @@ public class TimerService   extends Service
 		mNotificationManager.notify(3,notification);
 
 
+
+
+
 		//			.notify(mId, mBuilder.build());
 
 		//			getActivity().startForeground(4, notification);
@@ -364,9 +368,13 @@ public class TimerService   extends Service
 				notificationIntent.setAction(Intent.ACTION_VIEW);
 				notificationIntent.addCategory(Intent.CATEGORY_DEFAULT);
 				notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			int mins = (int) (l / 60000);
+			int secs = (int) ((l % 60000) / 1000);
 
-				PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, 0);
-				notification.setLatestEventInfo(getApplicationContext(), "Countdown", l+"", contentIntent);
+			String currentTime = String.format("%02d", mins) + ":" + String.format("%02d", secs);
+
+			PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, 0);
+				notification.setLatestEventInfo(getApplicationContext(), "Practise Countdown:", currentTime, contentIntent);
 
 				 mNotificationManager .notify(3, notification);
 
@@ -375,6 +383,37 @@ public class TimerService   extends Service
 		@Override
 		public void onFinish()
 		{
+
+
+
+
+
+			Class<?> notificationActivity = PerformingHabbit.class;
+
+			Intent notificationIntent = new Intent(getApplicationContext(), notificationActivity);
+			//			if (currentPlayable.getActivityData() != null) {
+			//				notificationIntent.putExtra(Constants.EXTRA_ACTIVITY_DATA,
+			//						currentPlayable.getActivityData());
+			//				notificationIntent.putExtra(Constants.EXTRA_DESCRIPTION,
+			//						R.string.msg_main_subactivity_nowplaying);
+			//			}
+			notificationIntent.setAction(Intent.ACTION_VIEW);
+			notificationIntent.addCategory(Intent.CATEGORY_DEFAULT);
+			notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+			PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, 0);
+			notification.setLatestEventInfo(getApplicationContext(), "Alert: Practise Finished", "Return to Practise", contentIntent);
+
+			mNotificationManager .notify(3, notification);
+
+
+
+
+
+
+
+
+
 			startAlarm();
 			Intent i = new Intent();
 			i.setAction("com.techventus.timefly.updatetimervisuals");

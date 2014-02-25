@@ -14,11 +14,12 @@
 
 	<Button
 			android:id="@+id/enter_time_button"
-			style="@style/btnStyleArsenic"
+			style="@style/btnStyleSeagull"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="@string/ok"
-			android:paddingLeft="30dp"
-			android:paddingRight="30dp">
+			android:paddingLeft="50dp"
+			android:paddingRight="50dp"
+			android:layout_margin="30dp">
 	</Button>
 </LinearLayout>

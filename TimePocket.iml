@@ -25,7 +25,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="library" exported="" />
     <orderEntry type="module" module-name="actionbarsherlock" exported="" />
-    <orderEntry type="library" name="achartengine-1.1.0" level="project" />
+    <orderEntry type="library" exported="" name="achartengine-1.1.0" level="project" />
   </component>
 </module>
 
