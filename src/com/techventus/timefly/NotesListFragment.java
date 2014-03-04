@@ -35,7 +35,7 @@ import android.widget.TextView;
 import com.techventus.timefly.R;
 
 /**
- * @author Victoria Hansen
+ * @author Joseph Malone
  */
 public class NotesListFragment extends SherlockFragment
 {
@@ -122,7 +122,7 @@ public class NotesListFragment extends SherlockFragment
 	{
 		final Dialog dialog = new Dialog(getActivity());
 		dialog.setContentView(R.layout.add_manually);
-		dialog.setTitle("Title...");
+		dialog.setTitle("Record Manual Practice");
 		dialog.show();;
 	}
 
