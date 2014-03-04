@@ -25,23 +25,40 @@
 			android:layout_below="@id/show_calendar_button"
 			android:layout_width="match_parent"
 			android:orientation="vertical"/>
+   <LinearLayout
+		   android:id="@+id/startPracticeLayout"
+		   android:layout_width="match_parent"
+		   android:orientation="horizontal"
+		   android:layout_alignParentBottom="true"
 
+		   android:layout_height="wrap_content">
+
+	   <Button
+			   android:id="@+id/manuallyButton"
+			   style="@style/btnStyleSeagull"
+			   android:text="@string/manually"
+			   android:layout_width="wrap_content"
+			   android:layout_height="wrap_content"
+			    android:drawableLeft="@android:drawable/ic_menu_add"
+			   android:layout_marginLeft="30dp"
+			               android:layout_weight="1"
+			   android:layout_marginTop="10dp"
+			   android:layout_marginBottom="10dp"/>
 	<Button
 			android:id="@+id/startPracticeButton"
 			style="@style/btnStyleSeagull"
 			android:text="@string/open_timer"
-			android:layout_width="match_parent"
+			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_alignParentBottom="true"
-			android:layout_centerHorizontal="true"
-			android:layout_marginLeft="30dp"
+			android:layout_weight="1"
+			android:layout_marginLeft="15dp"
 			android:layout_marginRight="30dp"
 			android:layout_marginTop="10dp"
 			android:layout_marginBottom="10dp"/>
-
+   </LinearLayout>
 	<ListView
 			android:layout_below="@id/performance_chart"
-			android:layout_above="@id/startPracticeButton"
+			android:layout_above="@id/startPracticeLayout"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:id="@+id/listview"

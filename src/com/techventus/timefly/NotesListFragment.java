@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.os.Build;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.jjoe64.graphview.GraphView;
@@ -46,6 +48,7 @@ public class NotesListFragment extends SherlockFragment
 
 	Button startTimerButton;
 	Button calendarButton;
+	Button enterManuallyButton;
 
 	int thisGoalId;
 
@@ -113,6 +116,15 @@ public class NotesListFragment extends SherlockFragment
 	}
 
 	List<Practice> practice_list;
+
+
+	void addManually()
+	{
+		final Dialog dialog = new Dialog(getActivity());
+		dialog.setContentView(R.layout.add_manually);
+		dialog.setTitle("Title...");
+		dialog.show();;
+	}
 
 	void refreshList()
 	{
@@ -185,8 +197,23 @@ public class NotesListFragment extends SherlockFragment
 		adapter = new NotesAdapter(this.getActivity(), R.layout.listitem_note, notesList);
 
 		final ListView listview = (ListView) page.findViewById(R.id.listview);
+		enterManuallyButton = (Button) page.findViewById(R.id.manuallyButton) ;
 		startTimerButton = (Button) page.findViewById(R.id.startPracticeButton);
 		calendarButton = (Button) page.findViewById(R.id.show_calendar_button);
+
+
+		enterManuallyButton.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View view)
+			{
+				addManually();
+			}
+		});
+
+
+
+
 		calendarButton.setOnClickListener(new OnClickListener()
 		{
 			@Override

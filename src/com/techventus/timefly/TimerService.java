@@ -38,8 +38,14 @@ public class TimerService   extends Service
 		public static final String TIME_NOT_SET = "TIME_NOT_SET";
 		public static final String UPDATE_TIME = "UPDATE_TIME";
 		public static final String STATE = "STATE";
+		public static final String GOAL_NAME = "GOAL_NAME";
+		public static final String GOAL_ID = "GOAL_ID";
 		public static final String GET_STATE = "GET_STATE";
 	}
+
+	int goal_id = -1;
+	String goal_name = "";
+
 
 	long startingCountdownTime = 0;
 
@@ -68,6 +74,20 @@ public class TimerService   extends Service
 		public void onReceive(Context context, Intent intent)
 		{
 			Bundle extras = intent.getExtras() ;
+
+			int temp_goal_id =  extras.getInt(BundleKey.GOAL_ID,-1);
+			String temp_goal_name = extras.getString(BundleKey.GOAL_NAME,"");
+
+			if(temp_goal_id != -1)
+			{
+				goal_id = temp_goal_id;
+			}
+			if(!temp_goal_name .equals(""))
+			{
+				goal_name = temp_goal_name ;
+			}
+
+
 			if(extras.containsKey(BundleKey.NEW_TIME))
 			{
 				STATE = BundleKey.SETUP;
@@ -79,14 +99,6 @@ public class TimerService   extends Service
 			}
 			else if(extras.containsKey(BundleKey.START))
 			{
-
-
-
-
-
-
-
-
 
 				STATE = BundleKey.START;
 				initialStartingTime = System.currentTimeMillis();
@@ -100,6 +112,8 @@ public class TimerService   extends Service
 				i.setAction("com.techventus.timefly.updatetimervisuals");
 				i.putExtra(BundleKey.FINISH, true);
 				i.putExtra(BundleKey.TIME_SPENT,(System.currentTimeMillis()-initialStartingTime));
+				i.putExtra(BundleKey.GOAL_NAME,goal_name) ;
+				i.putExtra(BundleKey.GOAL_ID,goal_id) ;
 				sendBroadcast(i);
 				stopAlarm();
 				if(mCountDown!=null)
@@ -148,7 +162,8 @@ public class TimerService   extends Service
 
 
 
-	public void onCreate(){
+	public void onCreate()
+	{
 		super.onCreate();
 		Log.w("TAG", "ScreenListenerService---OnCreate ");
 
@@ -156,19 +171,7 @@ public class TimerService   extends Service
 		filter.addAction("com.techventus.timefly.updatetimersettings");
 		registerReceiver(mReceiver,filter);
 
-//		Toast.makeText(this,"Service Started",Toast.LENGTH_SHORT).show();
 	}
-
-
-//
-//
-//	<intent-filter>
-//	<action android:name="com.techventus.timefly.updatetimervisual" />
-//	e=".TimerService" >
-//	<intent-filter>
-//	<action android:name="com.techventus.timefly.updatetimersettings" />
-
-
 
 
 
@@ -248,6 +251,8 @@ public class TimerService   extends Service
 		//			}
 		notificationIntent.setAction(Intent.ACTION_VIEW);
 		notificationIntent.addCategory(Intent.CATEGORY_DEFAULT);
+		notificationIntent.putExtra(BundleKey.GOAL_NAME,goal_name) ;
+		notificationIntent.putExtra(BundleKey.GOAL_ID,goal_id) ;
 		notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
 		notification.setLatestEventInfo(context, title, contentText, contentIntent);
@@ -257,13 +262,6 @@ public class TimerService   extends Service
 		// mId allows you to update the notification later on.
 		mNotificationManager.notify(3,notification);
 
-
-
-
-
-		//			.notify(mId, mBuilder.build());
-
-		//			getActivity().startForeground(4, notification);
 	}
 
 
@@ -292,8 +290,6 @@ public class TimerService   extends Service
 			i.putExtra(BundleKey.TIME_NOT_SET,true);
 			sendBroadcast(i);
 
-//			 returnCallToSetup();
-//			createTime();
 			return;
 		}
 		started = true;
@@ -316,20 +312,11 @@ public class TimerService   extends Service
 		Intent i = new Intent();
 		i.setAction("com.techventus.timefly.updatetimervisuals");
 		i.putExtra(BundleKey.START,true);
+		i.putExtra(BundleKey.GOAL_NAME,goal_name) ;
+		i.putExtra(BundleKey.GOAL_ID,goal_id) ;
 		sendBroadcast(i);
 
-//		mCountDownTimer = new DetailedCountDownTimer(startingCountdownTime, 1000);
-//		mCountDownTimer.start();
-//
-//		this.timer_button.setText(TimerService.this.getResources().getString(R.string.stop));
 	}
-
-
-	void updateNotification(long timeLeft)
-	{
-
-	}
-
 
 
 	boolean millisUntilFinished;
@@ -367,6 +354,8 @@ public class TimerService   extends Service
 				//			}
 				notificationIntent.setAction(Intent.ACTION_VIEW);
 				notificationIntent.addCategory(Intent.CATEGORY_DEFAULT);
+			notificationIntent.putExtra(BundleKey.GOAL_NAME,goal_name) ;
+			notificationIntent.putExtra(BundleKey.GOAL_ID,goal_id) ;
 				notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			int mins = (int) (l / 60000);
 			int secs = (int) ((l % 60000) / 1000);
@@ -384,10 +373,6 @@ public class TimerService   extends Service
 		public void onFinish()
 		{
 
-
-
-
-
 			Class<?> notificationActivity = PerformingHabbit.class;
 
 			Intent notificationIntent = new Intent(getApplicationContext(), notificationActivity);
@@ -399,6 +384,8 @@ public class TimerService   extends Service
 			//			}
 			notificationIntent.setAction(Intent.ACTION_VIEW);
 			notificationIntent.addCategory(Intent.CATEGORY_DEFAULT);
+			notificationIntent.putExtra(BundleKey.GOAL_NAME,goal_name) ;
+			notificationIntent.putExtra(BundleKey.GOAL_ID,goal_id) ;
 			notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
 			PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, 0);
@@ -407,17 +394,12 @@ public class TimerService   extends Service
 			mNotificationManager .notify(3, notification);
 
 
-
-
-
-
-
-
-
 			startAlarm();
 			Intent i = new Intent();
 			i.setAction("com.techventus.timefly.updatetimervisuals");
 			i.putExtra(BundleKey.ALARM,true);
+			i.putExtra(BundleKey.GOAL_NAME,goal_name);
+			i.putExtra(BundleKey.GOAL_ID,goal_id);
 			sendBroadcast(i);
 		}
 	}

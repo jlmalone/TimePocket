@@ -286,7 +286,7 @@ public class TabViewPagerFragmentActivity extends SherlockFragmentActivity imple
 				(tabInfo = new TabInfo("Tab4", GoalsListFragment.class, args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
 
-		TabViewPagerFragmentActivity.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab3").setIndicator(getResources().getString(R.string.log)),
+		TabViewPagerFragmentActivity.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab3").setIndicator("Log"),
 				(tabInfo = new TabInfo("Tab3", LogListFragment.class, args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
 

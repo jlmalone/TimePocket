@@ -54,8 +54,6 @@ public class PerformingHabbit extends SherlockFragmentActivity implements TimerF
 	}
 
 
-
-
 	private BroadcastReceiver thisReceiver = new BroadcastReceiver()
 	{
 		@Override
@@ -63,6 +61,21 @@ public class PerformingHabbit extends SherlockFragmentActivity implements TimerF
 		{
 
 			Bundle extras = intent.getExtras() ;
+
+
+			String gname = extras.getString(TimerService.BundleKey.GOAL_NAME,"");
+			int gid = extras.getInt(TimerService.BundleKey.GOAL_ID,-1);
+
+			if(( goal_name==null || goal_name.equals(""))  && !gname.equals(""))
+			{
+				goal_name = gname;
+			}
+
+			if(goal_id == -1 && gid != -1)
+			{
+				 goal_id = gid;
+			}
+
 			if(extras.containsKey(TimerService.BundleKey.SETUP))
 			{
 //				Toast.makeText(PerformingHabbit.this,"Performing Habbit Acknowledges Setup Complete",Toast.LENGTH_SHORT).show();
@@ -96,24 +109,6 @@ public class PerformingHabbit extends SherlockFragmentActivity implements TimerF
 				startTime = System.currentTimeMillis() - timeSpent;
 				timerFragmentSwap();
 			}
-//			else if(extras.containsKey(TimerService.BundleKey.SNOOZE))
-//			{
-//				timerFragment.sn
-//			}
-
-				//			else if(extras.containsKey(BundleKey.START))
-				//			{
-				//				start();
-				//			}
-				//			else if(extras.containsKey(BundleKey.STOP))
-				//			{
-				//				stop();
-				//			}
-				//			else if(extras.containsKey(BundleKey.SNOOZE))
-				//			{
-				//
-				//				 snooze(extras.getLong(BundleKey.SNOOZE));
-				//			}
 
 
 		}
@@ -137,7 +132,11 @@ public class PerformingHabbit extends SherlockFragmentActivity implements TimerF
 		filter.addAction("com.techventus.timefly.updatetimervisuals");
 		registerReceiver(thisReceiver,filter);
 
-		startService(new Intent(this, TimerService.class));
+		Intent serviceIntent = new Intent(this, TimerService.class);
+		serviceIntent.putExtra(TimerService.BundleKey.GOAL_NAME,goal_name);
+		serviceIntent.putExtra(TimerService.BundleKey.GOAL_ID,goal_id);
+
+		startService(serviceIntent);
 
 
 
