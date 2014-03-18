@@ -4,6 +4,7 @@ package com.techventus.timefly;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import android.widget.ScrollView;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -46,7 +47,7 @@ public class DetailsFragment extends SherlockFragment
 
 		}
 		setRetainInstance(true);
-		return (LinearLayout) inflater.inflate(R.layout.fragment_details, container, false);
+		return (ScrollView) inflater.inflate(R.layout.fragment_details, container, false);
 	}
 
 

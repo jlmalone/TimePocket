@@ -267,8 +267,14 @@ public class TabViewPagerFragmentActivity extends SherlockFragmentActivity imple
 		fragments.add(Fragment.instantiate(this, GoalsListFragment.class.getName()));
 		fragments.add(Fragment.instantiate(this, LogListFragment.class.getName()));
 		this.mPagerAdapter = new PagerAdapter(super.getSupportFragmentManager(), fragments);
+
 		//
-		this.mViewPager = (ViewPager) super.findViewById(R.id.viewpager);
+		this.mViewPager = (ViewPager) findViewById(R.id.viewpager);
+		if(this.mViewPager==null)
+			Log.v("HELP","NULL VIEW PAGER");
+		else if (this.mPagerAdapter==null)
+			Log.v("HELP","NULL PAGER ADAPTER");
+
 		this.mViewPager.setAdapter(this.mPagerAdapter);
 		this.mViewPager.setOnPageChangeListener(this);
 	}

@@ -2,12 +2,18 @@ package com.techventus.timefly;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Build;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TimePicker;
+import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
@@ -123,7 +129,65 @@ public class NotesListFragment extends SherlockFragment
 		final Dialog dialog = new Dialog(getActivity());
 		dialog.setContentView(R.layout.add_manually);
 		dialog.setTitle("Record Manual Practice");
-		dialog.show();;
+
+		final EditText time_input = (EditText)dialog.findViewById(R.id.time_input)    ;
+		Button enter = (Button)dialog.findViewById(R.id.enter);
+		final TimePicker timePicker = (TimePicker)dialog.findViewById(R.id.timePicker);
+		timePicker.setIs24HourView(true);
+		final EditText noteEditText = (EditText)dialog.findViewById(R.id.note);
+		final DatePicker datePicker = (DatePicker)dialog.findViewById(R.id.datePicker);
+
+		enter.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View view)
+			{
+				int timespent = -1;
+				try
+				{
+
+					int inp = Integer.parseInt(time_input.getText().toString());
+					if (inp > 0)
+					{
+
+
+						timespent = inp * 60000;
+
+					}
+				}catch(Exception e)
+				{
+					Toast.makeText(getActivity(),"Minutes must be a positive integer.",Toast.LENGTH_LONG).show();
+
+					return;
+				}
+				GregorianCalendar gc = new GregorianCalendar();
+
+				int day = datePicker.getDayOfMonth();
+				int month = datePicker.getMonth() ;
+				int year = datePicker.getYear();
+				gc.set(Calendar.DATE,day);
+				gc.set(Calendar.MONTH,month);
+				gc.set(Calendar.YEAR,year);
+
+				gc.set(Calendar.HOUR_OF_DAY, timePicker.getCurrentHour());
+				gc.set(Calendar.MINUTE, timePicker.getCurrentMinute());
+
+				PerformingHabbit.addNote(getActivity(),  noteEditText.getText().toString(),  goal_name,  goal_id,  timespent,  gc.getTimeInMillis());
+
+
+				Log.v(TAG,"DATE IS "+gc.getTimeInMillis()+" DURATION IS "+timespent);
+
+				dialog.dismiss();
+
+				refreshList();
+				adapter.notifyDataSetChanged();
+
+			}
+		});
+
+
+
+		dialog.show();
 	}
 
 	void refreshList()

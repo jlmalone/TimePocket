@@ -43,4 +43,5 @@
 	<string name="ten_mins">10 mins</string>
 	<string name="half_hour">30 mins</string>
 	<string name="manually">Manually</string>
+	<string name="minutes">minutes</string>
 </resources>

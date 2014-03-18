@@ -24,9 +24,24 @@ public class PerformingHabbit extends SherlockFragmentActivity implements TimerF
 
 	boolean started;
 
-	private long intendedTime;
+//	private long intendedTime;
 	private long timeSpent;
 	private long startTime;
+
+	@Override
+	public void onSaveInstanceState(Bundle outState)
+	{
+		//---save whatever you need to persist—
+		outState.putBoolean("STARTED", started);
+		super.onSaveInstanceState(outState);
+	}
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState)
+	{
+		super.onRestoreInstanceState(savedInstanceState);
+		//---retrieve the information persisted earlier---
+		started = savedInstanceState.getBoolean("STARTED");
+	}
 
 	class BundleKey
 	{
@@ -285,19 +300,19 @@ public class PerformingHabbit extends SherlockFragmentActivity implements TimerF
 	public void onNoteFinished(String note)
 	{
 		Toast.makeText(this, "Note Recorded: "+note, Toast.LENGTH_LONG).show();
-		addNote(note);
+		addNote(this, note, goal_name, goal_id, timeSpent, startTime);
 		timerFragment = null;
 		stopService(new Intent(PerformingHabbit.this,TimerService.class));
 //		getSupportFragmentManager()..findFragmentByTag("timer");
 		finish();
 	}
 
-	void addNote(String note)
+	public static void addNote(Context context, String note, String goal_name, int goal_id, long timeSpent,  long startTime)
 	{
 
 		if (goal_id != -1 && goal_name != null && startTime > 0)
 		{
-			DatabaseHelper db = new DatabaseHelper(this);
+			DatabaseHelper db = new DatabaseHelper(context);
 
 			//			String insertStatement;
 			ContentValues content = new ContentValues();
@@ -312,7 +327,7 @@ public class PerformingHabbit extends SherlockFragmentActivity implements TimerF
 		}
 		else
 		{
-			Toast.makeText(this, "ERROR: GOAL ID IS -1 - Contact the developer.", Toast.LENGTH_LONG).show();
+			Toast.makeText(context, "ERROR: GOAL ID IS -1 - Contact the developer.", Toast.LENGTH_LONG).show();
 		}
 
 	}

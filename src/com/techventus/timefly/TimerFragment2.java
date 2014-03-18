@@ -11,9 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragment;
 import org.w3c.dom.Text;
@@ -87,7 +89,16 @@ public class TimerFragment2  extends SherlockFragment
 			if(snoozing)
 			{
 				if(snoozeDialog!=null && snoozeDialog.isShowing())
-					snoozeDialog.dismiss();
+				{
+					try
+					{
+						snoozeDialog.dismiss();
+					}catch(java.lang.IllegalArgumentException e)
+					{
+						//TODO REPORT ERROR TO ANALYTICS
+						e.printStackTrace();
+					}
+				}
 				snoozeDialogue();
 			}
 
@@ -237,6 +248,8 @@ public class TimerFragment2  extends SherlockFragment
 				 intent.setAction("com.techventus.timefly.updatetimersettings");
 				 intent.putExtra(TimerService.BundleKey.START,true);
 				 getActivity().sendBroadcast(intent);
+				 if(mCallback!=null)    //TODO MAYBE CAN REMOVE NULL CHECK .put as precaution
+				    mCallback.onTimerStarted();
 			 }
 		 }
 	 };
@@ -393,6 +406,7 @@ public class TimerFragment2  extends SherlockFragment
 			final EditText goal_input = (EditText) dialog.findViewById(R.id.time_input);
 
 			Button dialogButton = (Button) dialog.findViewById(R.id.enter_time_button);
+
 			// if button is clicked, close the custom dialog
 			dialogButton.setOnClickListener(new View.OnClickListener()
 			{

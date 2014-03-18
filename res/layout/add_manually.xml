@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+		<RelativeLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
  <ScrollView
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="match_parent"
+		 android:layout_above="@+id/enter"
 		android:layout_height="match_parent">
 
 <LinearLayout
@@ -22,20 +28,35 @@
 				android:layout_height="wrap_content"
 				android:inputType="number"
 				android:ems="10"
-				android:id="@+id/editText"
-				android:hint="00"
+				android:id="@+id/time_input"
+
 				android:gravity="right"
 				android:layout_gravity="right"/>
+
+
 
 		<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:text="minutes"
-				android:id="@+id/textView2"
+				android:text="@string/minutes"
 				android:layout_marginLeft="10dp"
 				android:layout_gravity="center_vertical"/>
 	</LinearLayout>
+
+
+
+
+
+	<EditText
+			android:layout_marginTop="5dp"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:minLines="2"
+			android:id="@+id/note"
+			android:hint="Enter Note..."
+			android:maxLines="6"/>
+
 	<!--<TextView-->
 			<!--android:layout_width="wrap_content"-->
 			<!--android:layout_height="wrap_content"-->
@@ -53,18 +74,27 @@
 			android:layout_gravity="center_horizontal"/>
 
 	<TimePicker
-			android:id="@+id/timePicker1"
+			android:id="@+id/timePicker"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center_horizontal"/>
 
+
+
+</LinearLayout>
+</ScrollView>
+
 	<Button
 			android:layout_marginBottom="10dp"
-			android:layout_width="wrap_content"
+			android:layout_marginTop="5dp"
+			android:layout_marginLeft="70dp"
+			android:layout_marginRight="70dp"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			style="@style/btnStyleSeagull"
+			android:layout_alignParentBottom="true"
 			android:text="Enter"
 			android:id="@+id/enter"
 			android:layout_gravity="center_horizontal"/>
-</LinearLayout>
-</ScrollView>
+
+</RelativeLayout>
