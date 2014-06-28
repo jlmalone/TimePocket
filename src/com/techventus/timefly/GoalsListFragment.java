@@ -104,6 +104,8 @@ public class GoalsListFragment extends SherlockFragment
 	}
 
 
+	//TODO figure out why this is here and why it is never called.
+
 	private void updateAdapter()
 	{
 		adapter.notifyDataSetChanged();
@@ -173,8 +175,6 @@ public class GoalsListFragment extends SherlockFragment
 									if (renametext.length() > 3)
 									{
 										DatabaseHelper db = new DatabaseHelper(getActivity());
-										//										 db.getWritableDatabase().delete(DatabaseHelper.GOALS_TABLE_NAME,
-										// ""+DatabaseHelper.field_goals_goals_text+" = ?", new String[]{goalname} );
 										ContentValues cvGoalsTable = new ContentValues();
 										cvGoalsTable.put(DatabaseHelper.field_goals_goals_text, renametext);
 										String whereClause = DatabaseHelper.field_goals_goals_text + " = ?";
@@ -228,7 +228,8 @@ public class GoalsListFragment extends SherlockFragment
 											adapter.updateData(l);
 
 										}
-									}).setNegativeButton("No", new DialogInterface.OnClickListener()
+									}
+							).setNegativeButton("No", new DialogInterface.OnClickListener()
 							{
 								public void onClick(DialogInterface dialog, int id)
 								{
@@ -265,7 +266,7 @@ public class GoalsListFragment extends SherlockFragment
 				Intent i = new Intent(getActivity(), PerformingHabbit.class);
 				i.putExtra(GoalProgressActivity.BundleKey.EXTRA_GOAL_ID, goalId);
 				i.putExtra(GoalProgressActivity.BundleKey.EXTRA_GOAL_NAME, stringVal);
-				getActivity().startActivityForResult(i, 0, null);
+				getActivity().startActivityForResult(i, 0);
 			}
 		});
 
@@ -321,19 +322,6 @@ public class GoalsListFragment extends SherlockFragment
 
 		//		mAboutDialog.setContentView(R.layout.about_layout);
 		myPager.setCurrentItem(0);
-
-
-		//		TextView tv = (TextView)mAboutDialog.findViewById(R.id.fbtw)  ;
-		//
-		//		tv.setText(Html.fromHtml("If you’re a postponer of things important, this app may well become the key to your personal success. It utilises
-		// decades " +
-		//				"of research of science of the mind, motivation and productivity. Not to mention, just wisdom and common sense. For latest insights,
-		// " +
-		//				"join the conversation on <a href='https://www.facebook.com/pages/Timefly/413656958780174'>Facebook</a> or <a href='https://twitter" +
-		//				".com/thisistimefly'>Twitter</a>."));
-		//
-		//		tv. setMovementMethod(LinkMovementMethod.getInstance());
-
 
 	}
 
@@ -441,10 +429,6 @@ public class GoalsListFragment extends SherlockFragment
 						db.getWritableDatabase().execSQL(
 								"INSERT INTO " + DatabaseHelper.GOALS_TABLE_NAME + " (" + db.field_goals_goals_text + ") VALUES ('" + input + "');");
 
-						//			       ContentValues cv = new ContentValues();
-						//			       cv.put(db.field_goals_goals_text, input);
-
-						//			        .insert(DatabaseHelper.GOALS_TABLE_NAME, db.field_goals_goals_text, input)
 						db.close();
 					}
 					catch (SQLiteConstraintException e)

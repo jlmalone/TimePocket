@@ -127,7 +127,7 @@ public class LogListFragment extends SherlockFragment
 				i.putExtra(GoalProgressActivity.BundleKey.EXTRA_GOAL_NAME, adapter.getItem(arg2).getGoal());
 				i.putExtra(GoalProgressActivity.BundleKey.EXTRA_GOAL_ID, adapter.getItem(arg2).getGoal_id());
 
-				getActivity().startActivityForResult(i, 0, null);
+				getActivity().startActivityForResult(i, 0);
 			}
 		});
 	}
@@ -212,33 +212,7 @@ public class LogListFragment extends SherlockFragment
 		}
 	}
 
-	//    private class StableArrayAdapter extends ArrayAdapter<String> {
-	//
-	//      HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
-	//
-	//      public StableArrayAdapter(Context context, int textViewResourceId,
-	//          List<String> objects) {
-	//        super(context, textViewResourceId, objects);
-	//
-	//      }
-	//
-	//
-	//
-	//      @Override
-	//      public long getItemId(int position) {
-	//        String item = getItem(position);
-	//        if(mIdMap!=null && mIdMap.size()>0)
-	//
-	//        	return mIdMap.get(item);
-	//        else return -1;
-	//      }
-	//
-	//      @Override
-	//      public boolean hasStableIds() {
-	//        return true;
-	//      }
-	//
-	//    }
+
 
 }
 
