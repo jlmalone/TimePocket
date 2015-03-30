@@ -40,7 +40,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 import com.techventus.timefly.R;
 
-
 /**
  * @author Victoria Hansen
  */

@@ -142,21 +142,10 @@ public class TimerService   extends Service
 				snooze(extras.getLong(BundleKey.SNOOZE));
 				Intent i = new Intent();
 				i.setAction("com.techventus.timefly.updatetimervisuals");
-				i.putExtra(BundleKey.SNOOZE,true);
+				i.putExtra(BundleKey.SNOOZE, true);
 				sendBroadcast(i);
 
 			}
-
-//			else if(extras.containsKey(BundleKey.STOP))
-//			{
-//				stop();
-//			}
-//			else if(extras.containsKey(BundleKey.SNOOZE))
-//			{
-//
-//				 snooze(extras.getLong(BundleKey.SNOOZE));
-//			}
-
 		}
 	};
 

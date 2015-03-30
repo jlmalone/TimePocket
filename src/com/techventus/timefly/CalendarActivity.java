@@ -14,7 +14,6 @@ import java.util.Date;
  */
 public class CalendarActivity extends SherlockFragmentActivity
 {
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{

@@ -78,7 +78,7 @@ public class PerformingHabbit extends SherlockFragmentActivity implements TimerF
 			Bundle extras = intent.getExtras() ;
 
 
-			String gname = extras.getString(TimerService.BundleKey.GOAL_NAME,"");
+			String gname = extras.getString(TimerService.BundleKey.GOAL_NAME);
 			int gid = extras.getInt(TimerService.BundleKey.GOAL_ID,-1);
 
 			if(( goal_name==null || goal_name.equals(""))  && !gname.equals(""))
@@ -111,7 +111,8 @@ public class PerformingHabbit extends SherlockFragmentActivity implements TimerF
 			}
 			else if (extras.containsKey(TimerService.BundleKey.STOP))
 			{
-				timerFragment.ended(extras.getLong(TimerService.BundleKey.TIME_SPENT));
+				//TODO method was not finished.
+//				timerFragment.ended(extras.getLong(TimerService.BundleKey.TIME_SPENT));
 			}
 			else if(extras.containsKey(TimerService.BundleKey.SNOOZE))
 			{
@@ -119,7 +120,8 @@ public class PerformingHabbit extends SherlockFragmentActivity implements TimerF
 			}
 			else if(extras.containsKey(TimerService.BundleKey.FINISH))
 			{
-				timerFragment.ended(extras.getLong(TimerService.BundleKey.TIME_SPENT));
+				//TODO method was not finished
+//				timerFragment.ended(extras.getLong(TimerService.BundleKey.TIME_SPENT));
 				timeSpent =  extras.getLong(TimerService.BundleKey.TIME_SPENT);
 				startTime = System.currentTimeMillis() - timeSpent;
 				timerFragmentSwap();
