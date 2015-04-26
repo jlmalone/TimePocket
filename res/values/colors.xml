@@ -1,5 +1,14 @@
-
-    <resources>
-        <color name="black">#000000</color>
-        <color name="white">#FFFFFF</color>
-    </resources>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="primary">#2d9a3f</color>
+    <color name="primary_dark">#174e20</color>
+    <color name="accent">#1f642a</color>
+	<color name="blue_pressed_start_color">#27646c</color>
+	<color name="blue_pressed_end_colour">#7fbac6</color>
+	<color name="blue_focused_stroke">#598e96</color>
+	<color name="blue_focused_solid">#4ea0ab</color>
+	<color name="theme_light">#2a9ad5</color>
+	<color name="theme_dark">#2a9ad5</color>
+</resources>

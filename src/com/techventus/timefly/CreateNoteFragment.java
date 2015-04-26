@@ -17,12 +17,11 @@ import com.techventus.timefly.R;
 
 
 /**
- * @author Victoria Hansen
+ * @author Joseph Malone
  */
 public class CreateNoteFragment extends SherlockFragment
 {
 
-	NoteCreateListener mCallback;
 
 
 	// Container Activity must implement this interface
@@ -32,8 +31,9 @@ public class CreateNoteFragment extends SherlockFragment
 
 	}
 
-	Button finishButton;
-	EditText notesText;
+	private NoteCreateListener mCallback;
+	private Button finishButton;
+	private EditText notesText;
 
 
 	@Override

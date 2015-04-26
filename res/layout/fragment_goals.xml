@@ -5,18 +5,39 @@
 		android:layout_height="fill_parent"
 		android:gravity="center"
 		android:background="@color/white">
-	<!--  <GridView
-		  android:id="@+id/gridview"
-			android:layout_width="match_parent"
-	  android:layout_height="match_parent"
-	  android:numColumns="2"
-		android:gravity="center"
-		android:columnWidth="250dp"
-		android:stretchMode="columnWidth"
-	  ></GridView> -->
+
 	<ListView
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:id="@+id/listview"></ListView>
+
+	<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:visibility="gone"
+
+			android:id="@+id/no_data_state">
+
+
+
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="center_horizontal"
+				android:layout_marginLeft="30dp"
+				android:layout_marginRight="30dp"
+				android:layout_marginTop="50dp"
+				android:id="@+id/create_goal_text"
+				android:text="You have not yet created any goals, practices, or tasks."/>
+
+		<Button
+				android:layout_width="wrap_content"
+				android:layout_below="@+id/create_goal_text"
+				android:text="Create"
+
+				android:layout_centerHorizontal="true"
+				android:layout_height="wrap_content"/>
+
+		</RelativeLayout>
 
 </RelativeLayout>

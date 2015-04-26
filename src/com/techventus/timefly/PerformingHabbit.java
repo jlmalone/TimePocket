@@ -8,23 +8,19 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
-import com.techventus.timefly.R;
+import com.techventus.timefly.model.ApplicationState;
 
 public class PerformingHabbit extends SherlockFragmentActivity implements TimerFragment2.TimerListener, CreateNoteFragment.NoteCreateListener
 {
 
 	public static final String TAG = PerformingHabbit.class.getSimpleName();
-	RelativeLayout mRoot;
-	TimerFragment2 timerFragment;
+	private TimerFragment2 timerFragment;
 
 	boolean started;
-
-//	private long intendedTime;
 	private long timeSpent;
 	private long startTime;
 
@@ -56,16 +52,15 @@ public class PerformingHabbit extends SherlockFragmentActivity implements TimerF
 	@Override
 	public void onBackPressed()
 	{
-
 		if (started)
 		{
 			Toast.makeText(this, getResources().getString(R.string.back_button_disabled), Toast.LENGTH_SHORT).show();
 		}
 		else
 		{
+
 			super.onBackPressed();
 		}
-
 	}
 
 
@@ -76,7 +71,7 @@ public class PerformingHabbit extends SherlockFragmentActivity implements TimerF
 		{
 
 			Bundle extras = intent.getExtras() ;
-
+			Log.v(TAG, "Performing Habbit thisReceiver hit "+(intent!=null?intent.toString():"null"));
 
 			String gname = extras.getString(TimerService.BundleKey.GOAL_NAME);
 			int gid = extras.getInt(TimerService.BundleKey.GOAL_ID,-1);
@@ -93,7 +88,9 @@ public class PerformingHabbit extends SherlockFragmentActivity implements TimerF
 
 			if(extras.containsKey(TimerService.BundleKey.SETUP))
 			{
-//				Toast.makeText(PerformingHabbit.this,"Performing Habbit Acknowledges Setup Complete",Toast.LENGTH_SHORT).show();
+				Log.v(TAG, "Performing Habbit thisReceiver SETUP HIT");
+
+				//				Toast.makeText(PerformingHabbit.this,"Performing Habbit Acknowledges Setup Complete",Toast.LENGTH_SHORT).show();
 				timerFragment.setupComplete();
 			}
 			else if(extras.containsKey(TimerService.BundleKey.START))
@@ -126,8 +123,6 @@ public class PerformingHabbit extends SherlockFragmentActivity implements TimerF
 				startTime = System.currentTimeMillis() - timeSpent;
 				timerFragmentSwap();
 			}
-
-
 		}
 	};
 
@@ -138,15 +133,12 @@ public class PerformingHabbit extends SherlockFragmentActivity implements TimerF
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-
 		Intent intent = getIntent();
 		goal_id = intent.getIntExtra(BundleKey.EXTRA_GOAL_ID, -1);
 		goal_name = intent.getStringExtra(BundleKey.EXTRA_GOAL_NAME);
 
-
-
 		IntentFilter filter = new IntentFilter();
-		filter.addAction("com.techventus.timefly.updatetimervisuals");
+		filter.addAction(TimerService.BundleKey.TIMER_VISUAL_ADDRESS);
 		registerReceiver(thisReceiver,filter);
 
 		Intent serviceIntent = new Intent(this, TimerService.class);
@@ -155,13 +147,10 @@ public class PerformingHabbit extends SherlockFragmentActivity implements TimerF
 
 		startService(serviceIntent);
 
-
-
 		// Check that the activity is using the layout version with
 		// the fragment_container FrameLayout
 		if (findViewById(R.id.root) != null)
 		{
-
 			// However, if we're being restored from a previous state,
 			// then we don't need to do anything and should return or else
 			// we could end up with overlapping fragments.
@@ -190,9 +179,6 @@ public class PerformingHabbit extends SherlockFragmentActivity implements TimerF
 
 			getSupportFragmentManager().beginTransaction().add(R.id.root, timerFragment, "timer").commitAllowingStateLoss();
 		}
-
-
-
 	}
 
 
@@ -243,10 +229,8 @@ public class PerformingHabbit extends SherlockFragmentActivity implements TimerF
 
 		try
 		{
-
 			CreateNoteFragment noteFragment = new CreateNoteFragment();
 			getSupportFragmentManager().beginTransaction().add(R.id.root, noteFragment, "note").commitAllowingStateLoss();
-
 		}
 		catch (Exception e)
 		{
@@ -255,47 +239,6 @@ public class PerformingHabbit extends SherlockFragmentActivity implements TimerF
 	}
 
 
-//	@Override
-//	public void onTimerFinished(long intendedTime, long timeSpent)
-//	{
-//
-//		long currentTime = System.currentTimeMillis();
-//		startTime = currentTime - timeSpent;
-//
-//		this.timeSpent = timeSpent;
-//		this.intendedTime = intendedTime;
-//
-//		try
-//		{
-//
-//			if (timerFragment != null)
-//			{
-//				Log.v(TAG, "timeFragment not null");
-//			}
-//
-//			Fragment f = getSupportFragmentManager().findFragmentByTag("timer");
-//			if (f != null)
-//			{
-//				getSupportFragmentManager().beginTransaction().remove(f).commit();
-//			}
-//		}
-//		catch (Exception e)
-//		{
-//			e.printStackTrace();
-//		}
-//
-//		try
-//		{
-//
-//			CreateNoteFragment noteFragment = new CreateNoteFragment();
-//			getSupportFragmentManager().beginTransaction().add(R.id.root, noteFragment, "note").commitAllowingStateLoss();
-//
-//		}
-//		catch (Exception e)
-//		{
-//			e.printStackTrace();
-//		}
-//	}
 
 
 	@Override
@@ -305,18 +248,26 @@ public class PerformingHabbit extends SherlockFragmentActivity implements TimerF
 		addNote(this, note, goal_name, goal_id, timeSpent, startTime);
 		timerFragment = null;
 		stopService(new Intent(PerformingHabbit.this,TimerService.class));
-//		getSupportFragmentManager()..findFragmentByTag("timer");
 		finish();
 	}
 
 	public static void addNote(Context context, String note, String goal_name, int goal_id, long timeSpent,  long startTime)
 	{
+		if(!(goal_id != -1 && goal_name != null && startTime > 0))
+		{
+			ApplicationStatePersistenceManager applicationStatePersistenceManager = new ApplicationStatePersistenceManager(context);
+			ApplicationState applicationState = applicationStatePersistenceManager.getSavedState();
+			goal_id = applicationState.getGoalId() ;
+			startTime = applicationState.getInitialStartingTime();
+			timeSpent = applicationState.getPractiseTime();
+			goal_name = applicationState.getGoalName();
+
+		}
+
 
 		if (goal_id != -1 && goal_name != null && startTime > 0)
 		{
 			DatabaseHelper db = new DatabaseHelper(context);
-
-			//			String insertStatement;
 			ContentValues content = new ContentValues();
 			content.put(DatabaseHelper.field_practice_goals_id_integer, goal_id);
 			content.put(DatabaseHelper.field_practice_goals_name_text, goal_name);
@@ -329,11 +280,14 @@ public class PerformingHabbit extends SherlockFragmentActivity implements TimerF
 		}
 		else
 		{
-			Toast.makeText(context, "ERROR: GOAL ID IS -1 - Contact the developer.", Toast.LENGTH_LONG).show();
+
+
+			Toast.makeText(context, "ERROR: GOAL ID IS -1 - Contact the developer. timeSpent:"+timeSpent+" startTime:"+startTime+" note:"+note+" "+goal_name,
+					Toast
+					.LENGTH_LONG).show();
 		}
 
 	}
-
 
 	@Override
 	public void onTimerStarted()

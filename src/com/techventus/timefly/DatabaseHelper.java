@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import com.techventus.timefly.model.Practice;
 
 public class DatabaseHelper extends SQLiteOpenHelper
 {

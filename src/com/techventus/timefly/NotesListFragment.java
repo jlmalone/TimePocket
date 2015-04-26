@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Build;
 import android.widget.DatePicker;
@@ -38,7 +37,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.techventus.timefly.R;
+import com.techventus.timefly.model.Practice;
 
 /**
  * @author Joseph Malone

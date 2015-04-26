@@ -6,9 +6,13 @@
 		android:gravity="center">
 	<EditText
 			android:id="@+id/goal_input"
-			android:layout_width="match_parent"
+			android:layout_width="250dp"
 			android:layout_height="wrap_content"
 			android:inputType="textCapWords"
+			android:layout_marginTop="10dp"
+			android:layout_marginBottom="10dp"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="10dp"
 			android:hint="@string/enter_goal_name"/>
 	<Button
 			android:id="@+id/enter_goal_button"
@@ -17,6 +21,7 @@
 			android:layout_height="wrap_content"
 			android:text="@string/ok"
 			android:paddingLeft="30dp"
-			android:paddingRight="30dp">
+			android:paddingRight="30dp"
+			android:layout_marginBottom="10dp">
 	</Button>
 </LinearLayout>

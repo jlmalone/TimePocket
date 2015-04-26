@@ -1,5 +1,6 @@
 package com.techventus.timefly;
 
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -13,11 +14,14 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.util.Log;
-
-import java.io.IOException;
+import com.techventus.timefly.model.ApplicationState;
+import com.techventus.timefly.model.STATE;
 
 /**
  * Created by Joseph on 16.02.14.
+ *
+ * TODO MAKE NOTIFICATION MANAGER
+ *
  */
 public class TimerService   extends Service
 {
@@ -33,40 +37,56 @@ public class TimerService   extends Service
 		public static final String SNOOZE = "SNOOZE";
 	   	public static final String FINISH = "FINISH";
 		public static final String ALARM = "ALARM";
+		public static final String TIME_STARTED = "TIME_STARTED";
 		public static final String TIME_SPENT = "TIME_SPENT";
 		public static final String NEW_TIME = "NEW_TIME";
 		public static final String TIME_NOT_SET = "TIME_NOT_SET";
 		public static final String UPDATE_TIME = "UPDATE_TIME";
-		public static final String STATE = "STATE";
 		public static final String GOAL_NAME = "GOAL_NAME";
 		public static final String GOAL_ID = "GOAL_ID";
-		public static final String GET_STATE = "GET_STATE";
+		public static final String GOAL_TIME = "GOAL_TIME";
+
+		public static final String UPDATE_TIMER_SETTINGS =   "com.techventus.timefly.updatetimersettings";
 	}
 
-	int goal_id = -1;
-	String goal_name = "";
+	private static final String NOTIFICATION_TITLE_TIMEFLY = "TimeFly";
+
+	//ID OF GOAL BEING PRACTICED
+	private int mGoal_id = -1;
+	//NAME OF GOAL BEING PRACTICED
+	private String mGoal_name = "";
+
+	//MEDIA PLAYER FOR ALARM
+	private MediaPlayer mp;
+
+	private long startingCountdownTime = 0;
+
+	private STATE mState = STATE.NOT_SET;
+
+	private long mInitialStartingTime;
+
+	private static final String TAG = TimerService.class.getSimpleName();
+
+	private DetailedCountDown mCountDown;
+	private boolean mStarted = false;
+
+	private Notification mNotification;
+	private NotificationManager mNotificationManager    ;
+	private AlarmManager mAlarmManager;
+
+	private ApplicationState mApplicationState;
+	private ApplicationStatePersistenceManager mApplicationStatePersistenceManager;
 
 
-	long startingCountdownTime = 0;
-
-	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) {
-		//TODO do something useful
-		return Service.START_NOT_STICKY;
+	private void updateApplicationState()
+	{
+		Log.v("TIMER SERVICE","UPDATE APPLICATION STATE");
+		mApplicationState.setGoalId(mGoal_id);
+		mApplicationState.setGoalName(mGoal_name);
+		mApplicationState.setApplicationState(mState);
+		mApplicationState.setPractiseTime(startingCountdownTime);
+		mApplicationState.setInitialStartingTime(mInitialStartingTime);
 	}
-
-	@Override
-	public IBinder onBind(Intent intent) {
-		//TODO for communication return IBinder implementation
-		return null;
-	}
-
-
-	private String STATE = "NOT_SET";
-
-	long initialStartingTime;
-
-	 private static final String TAG = TimerService.class.getSimpleName();
 
 	private BroadcastReceiver mReceiver = new BroadcastReceiver()
 	{
@@ -76,156 +96,136 @@ public class TimerService   extends Service
 			Bundle extras = intent.getExtras() ;
 
 			int temp_goal_id =  extras.getInt(BundleKey.GOAL_ID,-1);
-			String temp_goal_name = extras.getString(BundleKey.GOAL_NAME,"");
+			String temp_goal_name = extras.getString(BundleKey.GOAL_NAME);//.getString(BundleKey.GOAL_NAME, "");
 
 			if(temp_goal_id != -1)
 			{
-				goal_id = temp_goal_id;
+				mGoal_id = temp_goal_id;
+
 			}
-			if(!temp_goal_name .equals(""))
+			if(temp_goal_name !=null )
 			{
-				goal_name = temp_goal_name ;
+				mGoal_name = temp_goal_name ;
 			}
 
-
-			if(extras.containsKey(BundleKey.NEW_TIME))
+			 if (extras.containsKey(BundleKey.ALARM))
 			{
-				STATE = BundleKey.SETUP;
+				Log.v(TAG, "Service intent contains key Alarm");
+				finishCountdown();
+			}
+
+			else if(extras.containsKey(BundleKey.NEW_TIME))
+			{
+				mState = STATE.SETUP;
+//				STATE = BundleKey.SETUP;
 				startingCountdownTime = extras.getLong(BundleKey.NEW_TIME);
 				Intent i = new Intent();
-				i.setAction("com.techventus.timefly.updatetimervisuals");
-				i.putExtra(BundleKey.SETUP,true);
+				i.setAction(BundleKey.TIMER_VISUAL_ADDRESS);
+				i.putExtra(BundleKey.SETUP, true);
+				Log.v(TAG, "New time set on TimerService " + startingCountdownTime);
 				sendBroadcast(i);
+
 			}
 			else if(extras.containsKey(BundleKey.START))
 			{
-
-				STATE = BundleKey.START;
-				initialStartingTime = System.currentTimeMillis();
+			   mState = STATE.STARTED;
+				mInitialStartingTime = System.currentTimeMillis();
 				start();
+
+				//TODO REFACTOR save initial starting time to SharedPreferences.
 
 			}
 			else if(extras.containsKey(BundleKey.STOP))
 			{
-				STATE = BundleKey.STOP;
+				mState = STATE.STOP;
 				Intent i = new Intent();
-				i.setAction("com.techventus.timefly.updatetimervisuals");
+				i.setAction(BundleKey.TIMER_VISUAL_ADDRESS);
 				i.putExtra(BundleKey.FINISH, true);
-				i.putExtra(BundleKey.TIME_SPENT,(System.currentTimeMillis()-initialStartingTime));
-				i.putExtra(BundleKey.GOAL_NAME,goal_name) ;
-				i.putExtra(BundleKey.GOAL_ID,goal_id) ;
+				i.putExtra(BundleKey.TIME_SPENT,(System.currentTimeMillis()- mInitialStartingTime));
+				i.putExtra(BundleKey.GOAL_NAME,mGoal_name) ;
+				i.putExtra(BundleKey.GOAL_ID,mGoal_id) ;
 				sendBroadcast(i);
 				stopAlarm();
 				if(mCountDown!=null)
 				{
 					mCountDown.cancel();
-
 				}
 				mNotificationManager.cancel(3);
-			}
-			else if(extras.containsKey(BundleKey.GET_STATE))
-			{
-				Intent i = new Intent();
-				i.setAction("com.techventus.timefly.updatetimervisuals");
-				i.putExtra(BundleKey.STATE,STATE);
-
-
-				if(STATE.equals("STARTED"))
-				{
-					i.putExtra(BundleKey.UPDATE_TIME,millisUntilFinished);
-				}
-				sendBroadcast(i);
 			}
 			else if(extras.containsKey(BundleKey.SNOOZE))
 			{
 				stopAlarm();
 				snooze(extras.getLong(BundleKey.SNOOZE));
 				Intent i = new Intent();
-				i.setAction("com.techventus.timefly.updatetimervisuals");
+				i.setAction(BundleKey.TIMER_VISUAL_ADDRESS);
 				i.putExtra(BundleKey.SNOOZE, true);
 				sendBroadcast(i);
 
 			}
+
+			updateApplicationState();
+			mApplicationStatePersistenceManager.setSavedState(mApplicationState);
 		}
 	};
 
-
-
-	public void onCreate()
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startId)
 	{
-		super.onCreate();
-		Log.w("TAG", "ScreenListenerService---OnCreate ");
+		//TODO do something useful
+//		AlarmManagerHelper.setAlarms(this);
+		return Service.START_NOT_STICKY;
+	}
 
-		IntentFilter filter = new IntentFilter();
-		filter.addAction("com.techventus.timefly.updatetimersettings");
-		registerReceiver(mReceiver,filter);
+	@Override
+	public IBinder onBind(Intent intent) {
+		//TODO for communication return IBinder implementation
+		return null;
+	}
+
+	@Override
+	public void onDestroy()
+	{
+		Log.v(TAG, "ON DESTROY");
+		unregisterReceiver(mReceiver);
+		super.onDestroy();
 
 	}
 
+	@Override
+	public void onCreate()
+	{
+		super.onCreate();
+		Log.w("TAG", "TimerService---OnCreate ");
+		mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+		mApplicationStatePersistenceManager = new ApplicationStatePersistenceManager(this);
+		mApplicationState = mApplicationStatePersistenceManager.getSavedState();
 
-
-//
-//
-//	DetailedCountDownTimer mCountDownTimer;
-//
-	boolean started = false;
-//	boolean finished = false;
-//	boolean stopped = false;
-//
-
-//
-//
-//	private void stop()
-//	{
-//
-//		if (mCountDownTimer == null)
-//		{
-//			//TODO REPORT ERROR HOW DID THIS HAPPEN
-//			Log.v(TAG, "mCountDownTimer is NULL. HOW DID IT HAPPEN?");
-//			return;
-//		}
-//
-//		stopped = true;
-//
-//		if (started && !finished)
-//		{
-//			long origTime = mCountDownTimer.getOriginalTime();
-//			long timeSpent = mCountDownTimer.getTimeSpent();
-//			mCountDownTimer.cancel();
-//
-//			//TIMER FINISHED
-//
-//
-////			mCallback.onTimerFinished(origTime, timeSpent);
-//		}
-//	}
-//
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(BundleKey.UPDATE_TIMER_SETTINGS);
+		registerReceiver(mReceiver,filter);
+	}
 
 	private void snooze(long snooze)
 	{
-	      stopAlarm();
+		stopAlarm();
 		if(mCountDown!=null)
 		{
 			mCountDown.cancel();
-
 		}
 
 		mCountDown = new DetailedCountDown(snooze,1000L);
 		mCountDown.start();
+		scheduleAlarm(snooze);
 	}
-
-	Notification notification;
-	NotificationManager mNotificationManager;
-
 
 	private void presentPlayingNotification()
 	{
-		CharSequence contentText = "TimeFly";//currentPlayable.getTitle();
-		notification =
+		CharSequence contentText = NOTIFICATION_TITLE_TIMEFLY;//currentPlayable.getTitle();
+		mNotification =
 				new Notification(R.drawable.timeflylogo,
 						contentText,
 						System.currentTimeMillis());
-		notification.flags = Notification.FLAG_ONGOING_EVENT;
+		mNotification.flags = Notification.FLAG_ONGOING_EVENT;
 		Context context = getApplicationContext();
 		CharSequence title = getString(R.string.app_name);
 
@@ -240,78 +240,90 @@ public class TimerService   extends Service
 		//			}
 		notificationIntent.setAction(Intent.ACTION_VIEW);
 		notificationIntent.addCategory(Intent.CATEGORY_DEFAULT);
-		notificationIntent.putExtra(BundleKey.GOAL_NAME,goal_name) ;
-		notificationIntent.putExtra(BundleKey.GOAL_ID,goal_id) ;
+		notificationIntent.putExtra(BundleKey.GOAL_NAME,mGoal_name) ;
+		notificationIntent.putExtra(BundleKey.GOAL_ID, mGoal_id) ;
 		notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
-		notification.setLatestEventInfo(context, title, contentText, contentIntent);
+		mNotification.setLatestEventInfo(context, title, contentText, contentIntent);
 
 		 mNotificationManager =
 				(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-		// mId allows you to update the notification later on.
-		mNotificationManager.notify(3,notification);
+		// mId allows you to update the mNotification later on.
+		mNotificationManager.notify(3, mNotification);
 
 	}
 
-
-
-
 	private void start()
 	{
-
-		if(started)
+		if(mStarted)
 		{
 			Intent i = new Intent();
-			i.setAction("com.techventus.timefly.updatetimervisuals");
+			i.setAction(BundleKey.TIMER_VISUAL_ADDRESS);
 			i.putExtra(BundleKey.ERROR_ALREADY_STARTED,true);
 			sendBroadcast(i);
 			return;
 		}
-		//		presentPlayingNotification();
-
 
 		if (startingCountdownTime == 0)
 		{
 
 			//TODO ALERT that Time is not set
 			Intent i = new Intent();
-			i.setAction("com.techventus.timefly.updatetimervisuals");
+			i.setAction(BundleKey.TIMER_VISUAL_ADDRESS);
 			i.putExtra(BundleKey.TIME_NOT_SET,true);
 			sendBroadcast(i);
 
+
 			return;
 		}
-		started = true;
+		mStarted = true;
 
 		presentPlayingNotification();
-
-
-
-
 
 		stopAlarm();
 		if(mCountDown!=null)
 		{
 			mCountDown.cancel();
-
 		}
 		mCountDown = new DetailedCountDown(startingCountdownTime,1000L);
 		mCountDown.start();
+		//TODO RIGHT HERE SET ALARM MANAGER
+		scheduleAlarm(startingCountdownTime);
 
 		Intent i = new Intent();
-		i.setAction("com.techventus.timefly.updatetimervisuals");
+		i.setAction(BundleKey.TIMER_VISUAL_ADDRESS);
 		i.putExtra(BundleKey.START,true);
-		i.putExtra(BundleKey.GOAL_NAME,goal_name) ;
-		i.putExtra(BundleKey.GOAL_ID,goal_id) ;
+		i.putExtra(BundleKey.GOAL_NAME,mGoal_name);
+		i.putExtra(BundleKey.GOAL_ID,mGoal_id);
 		sendBroadcast(i);
-
 	}
 
 
-	boolean millisUntilFinished;
-	DetailedCountDown mCountDown;
+	private void scheduleAlarm(long timeInFuture)
+	{
+		Log.v(TAG, "Schedule Alarm Manager "+timeInFuture);
 
-	class DetailedCountDown extends CountDownTimer
+		Intent intent = new Intent(this, CountdownAlarmManagerReceiver.class);
+		intent.putExtra(BundleKey.GOAL_TIME,timeInFuture);
+		if(mGoal_name!=null && mGoal_name.length()!=0)
+		{
+			intent.putExtra(BundleKey.GOAL_NAME, mGoal_name);
+		}
+		if(mGoal_id>0)
+		{
+			intent.putExtra(BundleKey.GOAL_ID, mGoal_id);
+		}
+		intent.putExtra(BundleKey.TIME_STARTED, mInitialStartingTime);
+		PendingIntent pintent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
+
+
+		mAlarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+timeInFuture, pintent);
+
+		//TODO FINISH THE ALARM. Schedule this alarm such that it replaces the current countdown mechanism and allows for the service
+		//to be killed at any time.
+	}
+
+	private class DetailedCountDown extends CountDownTimer
 	{
 
 		public DetailedCountDown(long millisInFuture, long countDownInterval)
@@ -326,35 +338,29 @@ public class TimerService   extends Service
 		{
 			//send Broadcast
 			Intent i = new Intent();
-			i.setAction("com.techventus.timefly.updatetimervisuals");
-			i.putExtra(BundleKey.UPDATE_TIME,l);
+			i.setAction(BundleKey.TIMER_VISUAL_ADDRESS);
+			i.putExtra(BundleKey.UPDATE_TIME, l);
 			sendBroadcast(i);
 
 
 
-				Class<?> notificationActivity = PerformingHabbit.class;
+			Class<?> notificationActivity = PerformingHabbit.class;
 
-				Intent notificationIntent = new Intent(getApplicationContext(), notificationActivity);
-				//			if (currentPlayable.getActivityData() != null) {
-				//				notificationIntent.putExtra(Constants.EXTRA_ACTIVITY_DATA,
-				//						currentPlayable.getActivityData());
-				//				notificationIntent.putExtra(Constants.EXTRA_DESCRIPTION,
-				//						R.string.msg_main_subactivity_nowplaying);
-				//			}
-				notificationIntent.setAction(Intent.ACTION_VIEW);
-				notificationIntent.addCategory(Intent.CATEGORY_DEFAULT);
-			notificationIntent.putExtra(BundleKey.GOAL_NAME,goal_name) ;
-			notificationIntent.putExtra(BundleKey.GOAL_ID,goal_id) ;
-				notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			Intent notificationIntent = new Intent(getApplicationContext(), notificationActivity);
+			notificationIntent.setAction(Intent.ACTION_VIEW);
+			notificationIntent.addCategory(Intent.CATEGORY_DEFAULT);
+			notificationIntent.putExtra(BundleKey.GOAL_NAME,mGoal_name) ;
+			notificationIntent.putExtra(BundleKey.GOAL_ID,mGoal_id) ;
+			notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			int mins = (int) (l / 60000);
 			int secs = (int) ((l % 60000) / 1000);
 
 			String currentTime = String.format("%02d", mins) + ":" + String.format("%02d", secs);
 
 			PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, 0);
-				notification.setLatestEventInfo(getApplicationContext(), "Practise Countdown:", currentTime, contentIntent);
+			mNotification.setLatestEventInfo(getApplicationContext(), "Practise Countdown:", currentTime, contentIntent);
 
-				 mNotificationManager .notify(3, notification);
+			mNotificationManager .notify(3, mNotification);
 
 		}
 
@@ -362,42 +368,71 @@ public class TimerService   extends Service
 		public void onFinish()
 		{
 
-			Class<?> notificationActivity = PerformingHabbit.class;
+//			finishCountdown();
 
-			Intent notificationIntent = new Intent(getApplicationContext(), notificationActivity);
-			//			if (currentPlayable.getActivityData() != null) {
-			//				notificationIntent.putExtra(Constants.EXTRA_ACTIVITY_DATA,
-			//						currentPlayable.getActivityData());
-			//				notificationIntent.putExtra(Constants.EXTRA_DESCRIPTION,
-			//						R.string.msg_main_subactivity_nowplaying);
-			//			}
-			notificationIntent.setAction(Intent.ACTION_VIEW);
-			notificationIntent.addCategory(Intent.CATEGORY_DEFAULT);
-			notificationIntent.putExtra(BundleKey.GOAL_NAME,goal_name) ;
-			notificationIntent.putExtra(BundleKey.GOAL_ID,goal_id) ;
-			notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
-			PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, 0);
-			notification.setLatestEventInfo(getApplicationContext(), "Alert: Practise Finished", "Return to Practise", contentIntent);
-
-			mNotificationManager .notify(3, notification);
-
-
-			startAlarm();
-			Intent i = new Intent();
-			i.setAction("com.techventus.timefly.updatetimervisuals");
-			i.putExtra(BundleKey.ALARM,true);
-			i.putExtra(BundleKey.GOAL_NAME,goal_name);
-			i.putExtra(BundleKey.GOAL_ID,goal_id);
-			sendBroadcast(i);
 		}
 	}
 
 
+	private void finishCountdown()
+	{
+		{
+			Log.v(TAG, "FINISH COUNTDOWN") ;
+			//send Broadcast
+			Intent i = new Intent();
+			i.setAction(BundleKey.TIMER_VISUAL_ADDRESS);
+			i.putExtra(BundleKey.UPDATE_TIME, 0L);
+			sendBroadcast(i);
 
-	MediaPlayer mp;
-	String PlayerState;
 
+			Class<?> notificationActivity = PerformingHabbit.class;
+
+			Intent notificationIntent = new Intent(getApplicationContext(), notificationActivity);
+			notificationIntent.setAction(Intent.ACTION_VIEW);
+			notificationIntent.addCategory(Intent.CATEGORY_DEFAULT);
+			notificationIntent.putExtra(BundleKey.GOAL_NAME, mGoal_name);
+			notificationIntent.putExtra(BundleKey.GOAL_ID, mGoal_id);
+			notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			int mins =  0;
+			int secs = 0;
+
+			String currentTime = String.format("%02d", mins) + ":" + String.format("%02d", secs);
+
+			PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, 0);
+			mNotification.setLatestEventInfo(getApplicationContext(), "Practise Countdown:", currentTime, contentIntent);
+
+			mNotificationManager.notify(3, mNotification);
+		}
+
+		Class<?> notificationActivity = PerformingHabbit.class;
+
+		Intent notificationIntent = new Intent(getApplicationContext(), notificationActivity);
+		//			if (currentPlayable.getActivityData() != null) {
+		//				notificationIntent.putExtra(Constants.EXTRA_ACTIVITY_DATA,
+		//						currentPlayable.getActivityData());
+		//				notificationIntent.putExtra(Constants.EXTRA_DESCRIPTION,
+		//						R.string.msg_main_subactivity_nowplaying);
+		//			}
+		notificationIntent.setAction(Intent.ACTION_VIEW);
+		notificationIntent.addCategory(Intent.CATEGORY_DEFAULT);
+		notificationIntent.putExtra(BundleKey.GOAL_NAME,mGoal_name) ;
+		notificationIntent.putExtra(BundleKey.GOAL_ID,mGoal_id) ;
+		notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+		PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, 0);
+		mNotification.setLatestEventInfo(getApplicationContext(), "Alert: Practise Finished", "Return to Practise", contentIntent);
+
+		mNotificationManager .notify(3, mNotification);
+
+		Log.v(TAG, "START ALARM");
+		startAlarm();
+		Intent i = new Intent();
+		i.setAction(BundleKey.TIMER_VISUAL_ADDRESS);
+		i.putExtra(BundleKey.ALARM,true);
+		i.putExtra(BundleKey.GOAL_NAME,mGoal_name);
+		i.putExtra(BundleKey.GOAL_ID,mGoal_id);
+		sendBroadcast(i);
+	}
 
 	private void stopAlarm()
 	{
@@ -410,161 +445,13 @@ public class TimerService   extends Service
 
 	 private void startAlarm()
 	 {
-
-
-		 mp = MediaPlayer.create(getApplicationContext(),  R.raw.bell);
-		 mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-
-			 public void onCompletion(MediaPlayer mp)
-			 {
-				 mp.create(getApplicationContext(), R.raw.bell);
-//				 try
-//				 {
-//					 mp.prepare();
-//				 }
-//				 catch (IOException e)
-//				 {
-//					 e.printStackTrace();
-//				 }
-				 mp.start();
-			 }
-
-		 });
-
-		 mp.start();
-
-
-
+		 if(mp==null || (mp!=null && !mp.isPlaying()))
+		 {
+			 mApplicationState.setApplicationState(STATE.RINGING);
+			 mp = MediaPlayer.create(getApplicationContext(), R.raw.bell);
+			 mp.setLooping(true);
+			 mp.start();
+		 }
 	 }
-
-
-
-
-
-
-
-
-
-//
-//
-//	class DetailedCountDownTimer extends CountDownTimer
-//	{
-//
-//		private long originalTimeInMillis;
-//		private long timeSpent;
-//
-//		public long getOriginalTime()
-//		{
-//			return originalTimeInMillis;
-//		}
-//
-//		public long getTimeSpent()
-//		{
-//			return timeSpent;
-//		}
-//
-//		public DetailedCountDownTimer(long millisInFuture, long countDownInterval)
-//		{
-//			super(millisInFuture, countDownInterval);
-//			originalTimeInMillis = millisInFuture;
-//			timeSpent = 0;
-//		}
-//
-//		@Override
-//		public void onFinish()
-//		{
-//			timeSpent = originalTimeInMillis;
-//			Intent finishIntent = new Intent() ;
-//			finishIntent.setAction("com.techventus.timefly.updatetimervisual");
-//			finishIntent.putExtra(BundleKey.ALARM, true);
-//			finishIntent.putExtra(BundleKey.TIME_SPENT, timeSpent);
-//
-//			clock.setText("done!");
-//			Log.v(TAG, "mCallback null? " + (mCallback == null));
-//			Log.v(TAG, "TIMES " + getOriginalTime() + " " + getTimeSpent());
-//
-//			try
-//			{
-//				if (TimerService.this != null)
-//				{
-//					Log.v(TAG, "ERROR ACTIVITY IS NULL");
-//
-//
-//					//					Uri alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-//					//				     if(alert == null){
-//					//				         // alert is null, using backup
-//					//				         alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-//					//				         if(alert == null){  // I can't see this ever being null (as always have a default notification) but just incase
-//					//				             // alert backup is null, using 2nd backup
-//					//				             alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
-//					//				         }
-//					//				     }
-//					MediaPlayer mp = MediaPlayer.create(TimerService.this, R.raw.bell);
-//					//					mp.setDataSource(getActivity(), alert);
-//
-//					//					final AudioManager audioManager = (AudioManager)getActivity().getSystemService(Context.AUDIO_SERVICE);
-//					//					 if (audioManager.getStreamVolume(AudioManager.STREAM_ALARM) != 0) {
-//					//						 		mp.setAudioStreamType(AudioManager.STREAM_ALARM);
-//					//					            mp.setLooping(true);
-//					//					            mp.prepare();
-//					//					            mp.start();
-//					//					  }
-//					try
-//					{
-//						//						mp.setAudioStreamType(AudioManager.STREAM_ALARM);
-//						mp.prepare();
-//
-//					}
-//					catch (IllegalStateException e)
-//					{
-//						e.printStackTrace();
-//						mp.start();
-//
-//
-//					}
-//					catch (IOException e)
-//					{
-//						e.printStackTrace();
-//					}
-//				}
-//				else
-//				{
-//					return;
-//				}
-//			}
-//			catch (Exception e)
-//			{
-//				Log.v(TAG, "ERROR ");
-//				e.printStackTrace();
-//			}
-//
-//
-//			if (mCallback != null)
-//			{
-//				mCallback.onTimerFinished(getOriginalTime(), getTimeSpent());
-//			}
-//		}
-//
-//		void returnCallToSetup()
-//		{
-//			Intent finishIntent = new Intent() ;
-//			finishIntent.setAction("com.techventus.timefly.updatetimervisual");
-//		}
-//
-//		@Override
-//		public void onTick(long millisUntilFinished)
-//		{
-//			timeSpent = originalTimeInMillis - millisUntilFinished;
-//
-//			int mins = (int) (millisUntilFinished / 60000);
-//			int secs = (int) ((millisUntilFinished % 60000) / 1000);
-//
-//			clock.setText(String.format("%02d", mins) + ":" + String.format("%02d", secs));
-//
-//			Log.v(TAG, "TICK " + secs + " " + timeSpent);
-//
-//		}
-//
-//	}
 
 }

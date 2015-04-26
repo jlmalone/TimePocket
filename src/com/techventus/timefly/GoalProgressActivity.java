@@ -7,7 +7,7 @@ import android.util.Log;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
-import com.techventus.timefly.R;
+import com.techventus.timefly.model.Practice;
 
 public class GoalProgressActivity extends SherlockFragmentActivity implements NotesListFragment.NoteSelectListener
 {

@@ -4,14 +4,12 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -25,7 +23,7 @@ public class TimerFragment2 extends SherlockFragment
 	//Start Time
 	private TimerListener mCallback;
 
-	private boolean started;
+//	private boolean started;
 
 	private boolean startIndicatorBool;
 	private boolean timerStartedBool;
@@ -59,27 +57,14 @@ public class TimerFragment2 extends SherlockFragment
 		{
 			Log.v(TAG, "ATTACHING ACTIVITY");
 			mCallback = (TimerListener) activity;
-			if (started)
-			{
-				mCallback.onTimerStarted();
-			}
 
-			if (snoozing)
-			{
-				if (snoozeDialog != null && snoozeDialog.isShowing())
-				{
-					try
-					{
-						snoozeDialog.dismiss();
-					}
-					catch (java.lang.IllegalArgumentException e)
-					{
-						//TODO REPORT ERROR TO ANALYTICS
-						e.printStackTrace();
-					}
-				}
-				snoozeDialogue();
-			}
+			//TODO IF TIMER HAS BEEN STARTED CALL onTIMERSTARTED
+//			if (started)
+//			{
+//				mCallback.onTimerStarted();
+//			}
+
+
 
 		}
 		catch (ClassCastException e)
@@ -100,6 +85,30 @@ public class TimerFragment2 extends SherlockFragment
 		}
 	}
 
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		if (snoozing)
+		{
+//			if (snoozeDialog != null && snoozeDialog.isShowing())
+//			{
+//				try
+//				{
+//					snoozeDialog.dismiss();
+//				}
+//				catch (java.lang.IllegalArgumentException e)
+//				{
+//					//TODO REPORT ERROR TO ANALYTICS
+//					e.printStackTrace();
+//				}
+//			}
+			snoozeDialogue();
+		}
+	}
+
+	ViewGroup vg;
+
 	/**
 	 * (non-Javadoc)
 	 *
@@ -109,7 +118,7 @@ public class TimerFragment2 extends SherlockFragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 
-
+		vg = container;
 		Log.v(TAG, "On Create View");
 		if (savedInstanceState != null)
 		{
@@ -124,7 +133,7 @@ public class TimerFragment2 extends SherlockFragment
 			return null;
 
 		}
-		return (LinearLayout) inflater.inflate(R.layout.fragment_timer, container, false);
+		return inflater.inflate(R.layout.fragment_timer, container, false);
 	}
 
 	@Override
@@ -148,14 +157,14 @@ public class TimerFragment2 extends SherlockFragment
 		snooze(snoozeBool);
 		timerStarted(timerStartedBool);
 
-		if (snoozing)
-		{
-			if (snoozeDialog != null && snoozeDialog.isShowing())
-			{
-				snoozeDialog.dismiss();
-			}
-			snoozeDialogue();
-		}
+//		if (snoozing)
+//		{
+//			if (snoozeDialog != null && snoozeDialog.isShowing())
+//			{
+//				snoozeDialog.dismiss();
+//			}
+//			snoozeDialogue();
+//		}
 	}
 
 
@@ -166,13 +175,12 @@ public class TimerFragment2 extends SherlockFragment
 		{
 			snoozing = false;
 			Intent intent = new Intent();
-			intent.setAction("com.techventus.timefly.updatetimersettings");
+			intent.setAction(TimerService.BundleKey.UPDATE_TIMER_SETTINGS);
 			intent.putExtra(TimerService.BundleKey.STOP, true);
 			getActivity().sendBroadcast(intent);
-			if (snoozeDialog != null && snoozeDialog.isShowing())
-			{
-				snoozeDialog.dismiss();
-			}
+			snoozeDialog.dismiss();
+			vg.removeView(snoozeDialog.getWindow().getDecorView());
+
 		}
 	};
 
@@ -184,16 +192,18 @@ public class TimerFragment2 extends SherlockFragment
 			@Override
 			public void onClick(View view)
 			{
+
+					Log.v(TAG, "TRY TO DISMISS SNOOZE DIALOG");
+					snoozeDialog.dismiss();
+					vg.removeView(snoozeDialog.getWindow().getDecorView());
+//					TimerFragment2.this.
 				snoozing = false;
 				Intent intent = new Intent();
-				intent.setAction("com.techventus.timefly.updatetimersettings");
+				intent.setAction(TimerService.BundleKey.UPDATE_TIMER_SETTINGS);
 				intent.putExtra(TimerService.BundleKey.SNOOZE, snoozetime);
 				getActivity().sendBroadcast(intent);
 
-				if (snoozeDialog != null && snoozeDialog.isShowing())
-				{
-					snoozeDialog.dismiss();
-				}
+
 			}
 		};
 		return snooze_click;
@@ -204,6 +214,7 @@ public class TimerFragment2 extends SherlockFragment
 		@Override
 		public void onClick(View view)
 		{
+			Log.v("TIMER FRAGMENT","Start Indicator Boolean "+startIndicatorBool);
 			if (!startIndicatorBool)
 			{
 				createTime();
@@ -211,7 +222,7 @@ public class TimerFragment2 extends SherlockFragment
 			else
 			{
 				Intent intent = new Intent();
-				intent.setAction("com.techventus.timefly.updatetimersettings");
+				intent.setAction(TimerService.BundleKey.UPDATE_TIMER_SETTINGS);
 				intent.putExtra(TimerService.BundleKey.START, true);
 				getActivity().sendBroadcast(intent);
 				if (mCallback != null)    //TODO MAYBE CAN REMOVE NULL CHECK .put as precaution
@@ -226,7 +237,7 @@ public class TimerFragment2 extends SherlockFragment
 	public void timerSetup()
 	{
 		Intent intent = new Intent();
-		intent.setAction("com.techventus.timefly.updatetimersettings");
+		intent.setAction(TimerService.BundleKey.UPDATE_TIMER_SETTINGS);
 		intent.putExtra(TimerService.BundleKey.NEW_TIME, startingtime);
 		getActivity().sendBroadcast(intent);
 	}
@@ -236,6 +247,7 @@ public class TimerFragment2 extends SherlockFragment
 	{
 		startIndicatorBool = true;
 		setupComplete(startIndicatorBool);
+		Log.v(TAG,"setup complete triggered "+startIndicatorBool +" "+start_timer_button.getVisibility());
 	}
 
 	public void setupComplete(boolean bool)
@@ -303,19 +315,24 @@ public class TimerFragment2 extends SherlockFragment
 
 	private void snoozeDialogue()
 	{
-		snoozeDialog = new Dialog(getActivity());
-		snoozeDialog.setContentView(R.layout.dialog_snooze);
-		snoozeDialog.setTitle(getResources().getString(R.string.snooze));
+		Log.v(TAG, "SNOOZE DIALOG CALLED");
+		if(snoozeDialog==null)
+		{
+			snoozeDialog = new Dialog(getActivity());
+			snoozeDialog.setContentView(R.layout.dialog_snooze);
+			snoozeDialog.setTitle(getResources().getString(R.string.snooze));
+			//		snoozeDialog.getWindow().getDecorView().getId();//.getWindow().getDecorView().rem
 
-		Button end = (Button) snoozeDialog.findViewById(R.id.end);
-		Button five_mins = (Button) snoozeDialog.findViewById(R.id.five_mins);
-		Button ten_mins = (Button) snoozeDialog.findViewById(R.id.ten_mins);
-		Button half_hour = (Button) snoozeDialog.findViewById(R.id.half_hour);
+			Button end = (Button) snoozeDialog.findViewById(R.id.end);
+			Button five_mins = (Button) snoozeDialog.findViewById(R.id.five_mins);
+			Button ten_mins = (Button) snoozeDialog.findViewById(R.id.ten_mins);
+			Button half_hour = (Button) snoozeDialog.findViewById(R.id.half_hour);
 
-		end.setOnClickListener(end_click);
-		five_mins.setOnClickListener(snoozeTimeClick(5 * 60 * 1000L));
-		ten_mins.setOnClickListener(snoozeTimeClick(10 * 60 * 1000L));
-		half_hour.setOnClickListener(snoozeTimeClick(30 * 60 * 1000L));
+			end.setOnClickListener(end_click);
+			five_mins.setOnClickListener(snoozeTimeClick(5 * 60 * 1000L));
+			ten_mins.setOnClickListener(snoozeTimeClick(10 * 60 * 1000L));
+			half_hour.setOnClickListener(snoozeTimeClick(30 * 60 * 1000L));
+		}
 		snoozeDialog.show();
 		snoozing = true;
 	}

@@ -25,13 +25,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TabHost;
 import android.widget.TabHost.TabContentFactory;
-import com.techventus.timefly.R;
 
 
 /**
  * The <code>TabsViewPagerFragmentActivity</code> class implements the Fragment activity that maintains a TabHost using a ViewPager.
  *
- * @author mwho
+ * TODO NO DATA STATE
+ *
+ *
+ * @author jmalone
  */
 public class TabViewPagerFragmentActivity extends SherlockFragmentActivity implements TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener
 {
@@ -40,9 +42,13 @@ public class TabViewPagerFragmentActivity extends SherlockFragmentActivity imple
 	private ViewPager mViewPager;
 	private HashMap<String, TabInfo> mapTabInfo = new HashMap<String, TabViewPagerFragmentActivity.TabInfo>();
 	private PagerAdapter mPagerAdapter;
+	private Dialog mAboutDialog;
+	private IntroAdapter mIntroAdaper;
+	private ViewPager mDialogPager;
+
 
 	/**
-	 * @author mwho
+	 * @author jmalone
 	 *         Maintains extrinsic info of a tab's construct
 	 */
 	private class TabInfo
@@ -58,7 +64,6 @@ public class TabViewPagerFragmentActivity extends SherlockFragmentActivity imple
 			this.clss = clazz;
 			this.args = args;
 		}
-
 	}
 
 	/**
@@ -104,10 +109,7 @@ public class TabViewPagerFragmentActivity extends SherlockFragmentActivity imple
 		return true;
 	}
 
-	Dialog mAboutDialog;
-	IntroAdapter mIntroAdaper;
 
-	ViewPager myPager;
 
 	private void populateAboutDialog()
 	{
@@ -115,14 +117,14 @@ public class TabViewPagerFragmentActivity extends SherlockFragmentActivity imple
 		mAboutDialog = new Dialog(this);
 		mIntroAdaper = new IntroAdapter(this, 5);
 		mIntroAdaper.setDialog(mAboutDialog);
-		myPager = new ViewPager(this);
-		mIntroAdaper.setViewPager(myPager);
+		mDialogPager = new ViewPager(this);
+		mIntroAdaper.setViewPager(mDialogPager);
 		mAboutDialog.setTitle(getResources().getString(R.string.about));
 
-		myPager.setAdapter(mIntroAdaper);
-		mAboutDialog.setContentView(myPager);
+		mDialogPager.setAdapter(mIntroAdaper);
+		mAboutDialog.setContentView(mDialogPager);
 
-		myPager.setCurrentItem(0);
+		mDialogPager.setCurrentItem(0);
 
 	}
 
@@ -136,7 +138,7 @@ public class TabViewPagerFragmentActivity extends SherlockFragmentActivity imple
 				{
 					populateAboutDialog();
 				}
-				myPager.setCurrentItem(0);
+				mDialogPager.setCurrentItem(0);
 				mAboutDialog.show();
 
 
@@ -266,6 +268,9 @@ public class TabViewPagerFragmentActivity extends SherlockFragmentActivity imple
 		//      fragments.add(Fragment.instantiate(this, CalendarFragment.class.getName()));
 		fragments.add(Fragment.instantiate(this, GoalsListFragment.class.getName()));
 		fragments.add(Fragment.instantiate(this, LogListFragment.class.getName()));
+
+
+
 		this.mPagerAdapter = new PagerAdapter(super.getSupportFragmentManager(), fragments);
 
 		//

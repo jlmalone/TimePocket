@@ -1,6 +1,8 @@
-package com.techventus.timefly;
+package com.techventus.timefly.model;
 
-public class Practice
+import java.io.Serializable;
+
+public class Practice implements Serializable
 {
 
 	private String note;
