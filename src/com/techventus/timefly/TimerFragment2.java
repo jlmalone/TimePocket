@@ -178,8 +178,11 @@ public class TimerFragment2 extends SherlockFragment
 			intent.setAction(TimerService.BundleKey.UPDATE_TIMER_SETTINGS);
 			intent.putExtra(TimerService.BundleKey.STOP, true);
 			getActivity().sendBroadcast(intent);
-			snoozeDialog.dismiss();
-			vg.removeView(snoozeDialog.getWindow().getDecorView());
+			if(snoozeDialog!=null && snoozeDialog.isShowing())
+			{
+				snoozeDialog.dismiss();
+				vg.removeView(snoozeDialog.getWindow().getDecorView());
+			}
 
 		}
 	};

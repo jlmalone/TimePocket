@@ -75,10 +75,9 @@ public class PerformingHabbit extends SherlockFragmentActivity implements TimerF
 
 			String gname = extras.getString(TimerService.BundleKey.GOAL_NAME);
 			int gid = extras.getInt(TimerService.BundleKey.GOAL_ID,-1);
-
-			if(( goal_name==null || goal_name.equals(""))  && !gname.equals(""))
+			if(gname!=null && !gname.isEmpty())
 			{
-				goal_name = gname;
+				 goal_name = gname;
 			}
 
 			if(goal_id == -1 && gid != -1)

@@ -44,8 +44,6 @@ import android.widget.Toast;
  */
 public class GoalsListFragment extends SherlockFragment
 {
-
-
 	private final static String[] GOAL_CONTROL_OPTIONS = {"Rename", "Delete", "Share"};
 	private final static String TAG = "GoalsListFragment";
 	private final static String KEY_FIRST_TIME = "firsttime";
@@ -87,6 +85,7 @@ public class GoalsListFragment extends SherlockFragment
 		return (RelativeLayout) inflater.inflate(R.layout.fragment_goals, container, false);
 	}
 
+	//TODO move to background thread
 	private void refreshList()
 	{
 		mGoalsNameList.clear();
@@ -106,7 +105,9 @@ public class GoalsListFragment extends SherlockFragment
 		c.close();
 		db.close();
 
+
 		setupNoDataState();
+		adapter.notifyDataSetChanged();
 	}
 
 	private OnItemClickListener mGoalOptionClick = new OnItemClickListener()
@@ -253,7 +254,6 @@ public class GoalsListFragment extends SherlockFragment
 
 		mNoDatastate = (RelativeLayout)page.findViewById(R.id.no_data_state) ;
 
-
 		SharedPreferences prefs = getActivity().getPreferences(getActivity().MODE_PRIVATE);
 		firstTime = prefs.getBoolean(KEY_FIRST_TIME, true);
 		Log.v(TAG, "firstTimeValue "+firstTime);
@@ -356,17 +356,13 @@ public class GoalsListFragment extends SherlockFragment
 		return false;
 	}
 
-
 	@Override
 	public void onResume()
 	{
 		super.onResume();
 		refreshList();
 		promptAddGoalIfEmpty();
-
 	}
-
-
 
 	private Dialog mCreateGoalDialog;
 
