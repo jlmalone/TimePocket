@@ -1,18 +1,13 @@
 package com.techventus.timefly;
 
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
-import android.app.Dialog;
 import android.os.Build;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.TimePicker;
-import android.widget.Toast;
+
 import com.actionbarsherlock.app.SherlockFragment;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
@@ -21,19 +16,15 @@ import com.jjoe64.graphview.LineGraphView;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -41,32 +32,31 @@ import com.techventus.timefly.model.Practice;
 
 /**
  * @author Joseph Malone
+ *
+ *
+ * I do not like this feature one bit, but it was a request.
  */
-public class NotesListFragment extends SherlockFragment
+public class NotesStreamFragment extends SherlockFragment
 {
 	public static final String TAG = NotesListFragment.class.getSimpleName();
 	final List<Practice> notesList = new ArrayList<Practice>();
 	String[] values;
-	NotesAdapter adapter;
+	NotesStreamAdapter adapter;
 
-	Button startTimerButton;
-	Button calendarButton;
-	Button enterManuallyButton;
 
-	int thisGoalId;
 
-	int goal_id;
-	String goal_name;
+//	int goal_id;
+//	String goal_name;
 
 	SimpleDateFormat formatter = new SimpleDateFormat("d MMM yyyy");
 
 	SimpleDateFormat dayFormatter = new SimpleDateFormat("EEE");
 
 
-	NoteSelectListener mCallback;
+	NoteStreamSelectListener mCallback;
 
 	// Container Activity must implement this interface
-	public interface NoteSelectListener
+	public interface NoteStreamSelectListener
 	{
 		public void onNoteSelect(int practice_id, int goal_id, String goal_name, String note, int secs, long startDate);
 
@@ -83,7 +73,7 @@ public class NotesListFragment extends SherlockFragment
 		try
 		{
 			Log.v(TAG, "ATTACHING ACTIVITY");
-			mCallback = (NoteSelectListener) activity;
+			mCallback = (NoteStreamSelectListener) activity;
 		}
 		catch (ClassCastException e)
 		{
@@ -112,92 +102,26 @@ public class NotesListFragment extends SherlockFragment
 			return null;
 		}
 
-		goal_id = getArguments().getInt(GoalProgressActivity.BundleKey.EXTRA_GOAL_ID, -1);
-		goal_name = getArguments().getString(GoalProgressActivity.BundleKey.EXTRA_GOAL_NAME);
+//		goal_id = getArguments().getInt(GoalProgressActivity.BundleKey.EXTRA_GOAL_ID, -1);
+//		goal_name = getArguments().getString(GoalProgressActivity.BundleKey.EXTRA_GOAL_NAME);
 
-		return (RelativeLayout) inflater.inflate(R.layout.fragment_notes, container, false);
+		return (RelativeLayout) inflater.inflate(R.layout.notestream, container, false);
 	}
 
 	List<Practice> practice_list;
 
 
-	void addManually()
-	{
-		final Dialog dialog = new Dialog(getActivity());
-		dialog.setContentView(R.layout.add_manually);
-		dialog.setTitle("Record Manual Practice");
-
-		final EditText time_input = (EditText)dialog.findViewById(R.id.time_input)    ;
-		Button enter = (Button)dialog.findViewById(R.id.enter);
-		final TimePicker timePicker = (TimePicker)dialog.findViewById(R.id.timePicker);
-		timePicker.setIs24HourView(true);
-		final EditText noteEditText = (EditText)dialog.findViewById(R.id.note);
-		final DatePicker datePicker = (DatePicker)dialog.findViewById(R.id.datePicker);
-
-		enter.setOnClickListener(new OnClickListener()
-		{
-			@Override
-			public void onClick(View view)
-			{
-				int timespent = -1;
-				try
-				{
-
-					int inp = Integer.parseInt(time_input.getText().toString());
-					if (inp > 0)
-					{
-
-
-						timespent = inp * 60000;
-
-					}
-				}catch(Exception e)
-				{
-					Toast.makeText(getActivity(),"Minutes must be a positive integer.",Toast.LENGTH_LONG).show();
-
-					return;
-				}
-				GregorianCalendar gc = new GregorianCalendar();
-
-				int day = datePicker.getDayOfMonth();
-				int month = datePicker.getMonth() ;
-				int year = datePicker.getYear();
-				gc.set(Calendar.DATE,day);
-				gc.set(Calendar.MONTH,month);
-				gc.set(Calendar.YEAR,year);
-
-				gc.set(Calendar.HOUR_OF_DAY, timePicker.getCurrentHour());
-				gc.set(Calendar.MINUTE, timePicker.getCurrentMinute());
-
-				PerformingHabbit.addNote(getActivity(),  noteEditText.getText().toString(),  goal_name,  goal_id,  timespent,  gc.getTimeInMillis());
-
-
-				Log.v(TAG,"DATE IS "+gc.getTimeInMillis()+" DURATION IS "+timespent);
-
-				dialog.dismiss();
-
-				refreshList();
-				adapter.notifyDataSetChanged();
-
-			}
-		});
-
-
-
-		dialog.show();
-	}
 
 	void refreshList()
 	{
-
 		notesList.clear();
 		DatabaseHelper db = new DatabaseHelper(getActivity());
 
-		String whereclause = " " + DatabaseHelper.field_practice_goals_id_integer + " = ? ";//'"+goal_id+"' ";
+//		String whereclause = " " + DatabaseHelper.field_practice_goals_id_integer + " = ? ";//'"+goal_id+"' ";
 
-		String[] selection_args = {goal_id + ""};
+//		String[] selection_args = {goal_id + ""};
 
-		practice_list = db.getPracticeList(whereclause, selection_args);
+		practice_list = db.getPracticeList(null, null);
 		notesList.addAll(practice_list);
 
 		for (Practice practice : practice_list)
@@ -229,17 +153,11 @@ public class NotesListFragment extends SherlockFragment
 			graphView.setBottom(0);
 		}
 		graphView.addSeries(exampleSeries); // data
-
-
 		graphView.setHorizontalLabels(labels);
-
-		chart_holder.removeAllViews();
-		chart_holder.addView(graphView);
 
 	}
 
 
-	LinearLayout chart_holder;
 
 	@Override
 	public void onViewCreated(View page, Bundle savedInstanceState)
@@ -251,73 +169,14 @@ public class NotesListFragment extends SherlockFragment
 		values = new String[]{};
 
 
-		chart_holder = (LinearLayout) page.findViewById(R.id.performance_chart);
 
 		refreshList();
 
-		adapter = new NotesAdapter(this.getActivity(), R.layout.listitem_note, notesList);
+		adapter = new NotesStreamAdapter(this.getActivity(), R.layout.listitem_note, notesList);
 
 		final ListView listview = (ListView) page.findViewById(R.id.listview);
-		enterManuallyButton = (Button) page.findViewById(R.id.manuallyButton) ;
-		startTimerButton = (Button) page.findViewById(R.id.startPracticeButton);
-		calendarButton = (Button) page.findViewById(R.id.show_calendar_button);
 
 
-		enterManuallyButton.setOnClickListener(new OnClickListener()
-		{
-			@Override
-			public void onClick(View view)
-			{
-				addManually();
-			}
-		});
-
-
-
-
-		calendarButton.setOnClickListener(new OnClickListener()
-		{
-			@Override
-			public void onClick(View view)
-			{
-				Intent intent = new Intent(NotesListFragment.this.getActivity(), CalendarActivity.class);
-				if (practice_list != null && practice_list.size() > 0)
-				{
-					Log.v(TAG, "PRACTICE LIST SIZE " + practice_list.size());
-					long[] dates = new long[practice_list.size()];
-
-					for (int i = 0; i < dates.length; i++)
-					{
-						dates[i] = practice_list.get(i).getDate();
-						Log.v(TAG, "PRACTICE ADDED to DATE AR " + dates[i]);
-					}
-					intent.putExtra(PerformingHabbit.BundleKey.EXTRA_DATES, dates);
-					intent.putExtra(PerformingHabbit.BundleKey.EXTRA_GOAL_ID, goal_id);
-					intent.putExtra(PerformingHabbit.BundleKey.EXTRA_GOAL_NAME, goal_name);
-					startActivity(intent);
-				}
-				else
-				{
-					Log.v(TAG, "Practice List null or zero size");
-				}
-
-				//			    getActivity().finish();
-			}
-		});
-
-		startTimerButton.setOnClickListener(new OnClickListener()
-		{
-
-			@Override
-			public void onClick(View v)
-			{
-				Intent intent = new Intent(NotesListFragment.this.getActivity(), PerformingHabbit.class);
-				intent.putExtra(PerformingHabbit.BundleKey.EXTRA_GOAL_ID, goal_id);
-				intent.putExtra(PerformingHabbit.BundleKey.EXTRA_GOAL_NAME, goal_name);
-				startActivity(intent);
-				getActivity().finish();
-			}
-		});
 
 		listview.setAdapter(adapter);
 
@@ -341,14 +200,14 @@ public class NotesListFragment extends SherlockFragment
 		public TextView seconds_performed;
 	}
 
-	public class NotesAdapter extends ArrayAdapter<Practice>
+	public class NotesStreamAdapter extends ArrayAdapter<Practice>
 	{
 
 		Context context;
 		int layoutResourceId;
 		List<Practice> practiceList;
 
-		public NotesAdapter(Context context, int layoutResourceId, List<Practice> practiceList)
+		public NotesStreamAdapter(Context context, int layoutResourceId, List<Practice> practiceList)
 		{
 
 			super(context, layoutResourceId, practiceList);
@@ -362,7 +221,7 @@ public class NotesListFragment extends SherlockFragment
 		public View getView(int position, View convertView, ViewGroup parent)
 		{
 
-			NoteListItemViewHolder viewHolder;
+			 NoteListItemViewHolder viewHolder;
 
 			if (convertView == null)
 			{
@@ -386,8 +245,6 @@ public class NotesListFragment extends SherlockFragment
 
 			if (p != null)
 			{
-
-
 				viewHolder.seconds_performed.setText(DurationFormatter.getFormattedTime(p.getSecs()));
 
 				viewHolder.note.setText(p.getNote());
@@ -402,3 +259,4 @@ public class NotesListFragment extends SherlockFragment
 	}
 
 }
+

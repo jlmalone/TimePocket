@@ -25,6 +25,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TabHost;
 import android.widget.TabHost.TabContentFactory;
+import com.techventus.timefly.model.Practice;
 
 
 /**
@@ -35,7 +36,8 @@ import android.widget.TabHost.TabContentFactory;
  *
  * @author jmalone
  */
-public class TabViewPagerFragmentActivity extends SherlockFragmentActivity implements TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener
+public class TabViewPagerFragmentActivity extends SherlockFragmentActivity implements TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener,
+		NotesStreamFragment.NoteStreamSelectListener
 {
 
 	private TabHost mTabHost;
@@ -45,6 +47,18 @@ public class TabViewPagerFragmentActivity extends SherlockFragmentActivity imple
 	private Dialog mAboutDialog;
 	private IntroAdapter mIntroAdaper;
 	private ViewPager mDialogPager;
+
+	@Override
+	public void onNoteSelect(int practice_id, int goal_id, String goal_name, String note, int secs, long startDate)
+	{
+		//Think about doing something
+	}
+
+	@Override
+	public void onNoteSelect(Practice p)
+	{
+		  //Think about doing something
+	}
 
 
 	/**
@@ -268,7 +282,7 @@ public class TabViewPagerFragmentActivity extends SherlockFragmentActivity imple
 		//      fragments.add(Fragment.instantiate(this, CalendarFragment.class.getName()));
 		fragments.add(Fragment.instantiate(this, GoalsListFragment.class.getName()));
 		fragments.add(Fragment.instantiate(this, LogListFragment.class.getName()));
-
+		fragments.add(Fragment.instantiate(this, NotesStreamFragment.class.getName()));
 
 
 		this.mPagerAdapter = new PagerAdapter(super.getSupportFragmentManager(), fragments);
@@ -295,12 +309,16 @@ public class TabViewPagerFragmentActivity extends SherlockFragmentActivity imple
 
 		TabViewPagerFragmentActivity.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab4").setIndicator(getResources().getString(R.string.goals)),
 				(tabInfo = new TabInfo("Tab4", GoalsListFragment.class, args)));
-		this.mapTabInfo.put(tabInfo.tag, tabInfo);
+//		this.mapTabInfo.put(tabInfo.tag, tabInfo);
 
 		TabViewPagerFragmentActivity.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab3").setIndicator("Log"),
 				(tabInfo = new TabInfo("Tab3", LogListFragment.class, args)));
-		this.mapTabInfo.put(tabInfo.tag, tabInfo);
+//		this.mapTabInfo.put(tabInfo.tag, tabInfo);
 
+		TabViewPagerFragmentActivity.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("STREAM").setIndicator("Social"),(tabInfo = new TabInfo("STREAM" ,
+				NotesStreamFragment.class, args
+				)));
+		this.mapTabInfo.put(tabInfo.tag, tabInfo);
 		// Default to first tab
 		//this.onTabChanged("Tab1");
 		//
